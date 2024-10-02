@@ -57,8 +57,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void Fire(CallbackContext _context)
     {
-        
-
         if (_context.performed)
         {
             m_newCoroutine = StartCoroutine(ShootLogic());
@@ -86,18 +84,16 @@ public class PlayerMovement : MonoBehaviour
     // Other player logic
     void ScreenWrap()
     {
-        Vector3 _screenPos = Camera.main.ScreenToWorldPoint(transform.position);
-
-        float _rightSideOfScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x + 0.5f;
-        float _leftSideOfScreen = -_rightSideOfScreen - 0.5f;
+        float _rightSideOfScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x + 0.15f;
+        float _leftSideOfScreen = -_rightSideOfScreen - 0.15f;
 
         if(transform.position.x > _rightSideOfScreen)
         {
-            transform.position = new Vector2(_leftSideOfScreen, 0);
+            transform.position = new Vector2(_leftSideOfScreen, transform.position.y);
         }
         if(transform.position.x < _leftSideOfScreen)
         {
-            transform.position = new Vector2(_rightSideOfScreen, 0);
+            transform.position = new Vector2(_rightSideOfScreen, transform.position.y);
         }
     }
 }
