@@ -4,4 +4,5 @@ using UnityEngine;
 public class PlayerSettings : GenericScriptableSingleton<PlayerSettings>
 {
     public bool audio;
+    public int playerHP;
 }
