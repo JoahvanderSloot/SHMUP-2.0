@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: GameInfo
   m_EditorClassIdentifier: 
   audio: 0
+  playerHP: 3
+  IGN: Rodney
+  score: 90000

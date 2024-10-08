@@ -8,7 +8,10 @@ public class HitPoints : MonoBehaviour
     {
         if(m_HP <= 0)
         {
-            Destroy(gameObject);
+            if(tag != "Enemy")
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
