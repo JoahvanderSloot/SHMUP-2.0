@@ -52,11 +52,11 @@ public class PlayerMovement : MonoBehaviour
         m_rb.AddForce(_data.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
 
 
-        if (_data == Vector2.right)
+        if (_data == Vector2.right && !m_IsPaused)
         {
             transform.rotation = Quaternion.Euler(0, 0, -11);
         }
-        else if (_data == Vector2.left)
+        else if (_data == Vector2.left && !m_IsPaused)
         {
             transform.rotation = Quaternion.Euler(0, 0, 11);
         }

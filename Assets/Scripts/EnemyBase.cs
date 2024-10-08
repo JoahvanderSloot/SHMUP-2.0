@@ -18,10 +18,12 @@ public class EnemyBase : MonoBehaviour
             {
                 Debug.Log("Spawn powerup");
                 //Instantiate(m_powerUp);
+                PlayerSettings.Instance.score += 5 * PlayerSettings.Instance.wave;
                 Destroy(gameObject);
             }
             else
             {
+                PlayerSettings.Instance.score += 5 * PlayerSettings.Instance.wave;
                 Destroy(gameObject);
             }
         }

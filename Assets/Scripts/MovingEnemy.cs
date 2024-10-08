@@ -31,8 +31,6 @@ public class MovingEnemy : EnemyBase
     {
         base.Update();
         SideToSideMovement();
-
-        Debug.Log(m_isInPosition);
     }
 
     private void MovingEnemtStart()

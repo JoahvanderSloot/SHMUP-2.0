@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b82f6e781a2d34793ddeecb095bcab, type: 3}
   m_Name: GameInfo
   m_EditorClassIdentifier: 
-  audio: 0
+  audio: 1
   playerHP: 3
-  IGN: Rodney
-  score: 90000
+  IGN: Rico verhoeven
+  score: 5
+  wave: 1
