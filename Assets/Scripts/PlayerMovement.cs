@@ -16,11 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject m_Bullet;
     Coroutine m_newCoroutine;
 
-    [Header("Screen Wrap")]
-    
-
     [Header("Other")]
-    bool m_IsPaused = false;
+    public bool m_IsPaused = false;
 
     private void Start()
     {
@@ -52,7 +49,21 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 _data = m_MoveInput.action.ReadValue<Vector2>();
 
-        m_rb.AddForce(_data.normalized * m_Speed * 10f, ForceMode2D.Force);
+        m_rb.AddForce(_data.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
+
+
+        if (_data == Vector2.right)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, -11);
+        }
+        else if (_data == Vector2.left)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 11);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     public void Fire(CallbackContext _context)
@@ -94,6 +105,14 @@ public class PlayerMovement : MonoBehaviour
         if(transform.position.x < _leftSideOfScreen)
         {
             transform.position = new Vector2(_rightSideOfScreen, transform.position.y);
+        }
+    }
+
+    public void PowerUp(string _powerUpName)
+    {
+        if(_powerUpName == "HP")
+        {
+            PlayerSettings.Instance.playerHP++;
         }
     }
 }
