@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameInfo
   m_EditorClassIdentifier: 
   audio: 1
-  playerHP: 3
-  IGN: Rico verhoeven
-  score: 5
+  playerHP: 0
+  IGN: Nielscraft
+  score: 5600
   wave: 1
