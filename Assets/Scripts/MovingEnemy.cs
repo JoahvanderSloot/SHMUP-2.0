@@ -2,30 +2,15 @@ using UnityEngine;
 
 public class MovingEnemy : EnemyBase
 {
+    private bool m_isAtBotton = false;
     private Vector2 m_moveDirection;
-    private float m_Speed = 8;
-    Rigidbody2D m_rb;
-
-    private float m_maxX = 8;
-    private float m_maxY = 4;
-    private Vector2 m_randomPosition;
-    private bool m_isInPosition = false;
-    private float m_range = 1f;
 
     protected override void Start()
     {
         base.Start();
-
-        m_randomPosition = GetRandomPosition();
-        MovingEnemtStart();
+        MovingEnemyStart();
     }
 
-    Vector2 GetRandomPosition()
-    {
-        float _randomX = Random.Range(-m_maxX, m_maxX);
-        float _randomY = Random.Range(-m_maxY / 4, m_maxY);
-        return new Vector2(_randomX, _randomY);
-    }
 
     protected override void Update()
     {
@@ -33,7 +18,7 @@ public class MovingEnemy : EnemyBase
         SideToSideMovement();
     }
 
-    private void MovingEnemtStart()
+    private void MovingEnemyStart()
     {
         m_rb = GetComponent<Rigidbody2D>();
         m_rb.drag = 20;
@@ -51,16 +36,7 @@ public class MovingEnemy : EnemyBase
 
     private void SideToSideMovement()
     {
-        if (!m_isInPosition)
-        {
-            float distance = Vector2.Distance(transform.position, m_randomPosition);
-            float lerpFactor = Mathf.Clamp01(Time.deltaTime * m_Speed / distance);
-
-            transform.position = Vector2.Lerp(transform.position, m_randomPosition, lerpFactor);
-
-            m_isInPosition = distance <= m_range;
-        }
-        else
+        if(m_isInPosition)
         {
             float _rightSideOfScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x - 0.15f;
             float _leftSideOfScreen = -_rightSideOfScreen + 0.15f;
@@ -75,6 +51,44 @@ public class MovingEnemy : EnemyBase
             }
 
             m_rb.AddForce(m_moveDirection.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
+            
+            if(m_enemyType == 1 && transform.position.y >= -3)
+            {
+                m_rb.AddForce(Vector2.down * m_Speed * Time.deltaTime * 100, ForceMode2D.Force);
+
+                if (m_moveDirection == Vector2.right)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 250);
+                }
+                else if (m_moveDirection == Vector2.left)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, -250);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 180);
+                }
+            }
+            else
+            {
+                m_isAtBotton = true;
+            }
+
+           if(m_enemyType == 0 || m_isAtBotton)
+            {
+                if (m_moveDirection == Vector2.right)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, -90);
+                }
+                else if (m_moveDirection == Vector2.left)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 90);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 180);
+                }
+            }
         }
     }
 

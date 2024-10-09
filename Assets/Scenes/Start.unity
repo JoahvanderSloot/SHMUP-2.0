@@ -1552,7 +1552,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Title here
+  m_text: Space Fighter
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ac393853980b97e478f01b1f044911ac, type: 2}
   m_sharedMaterial: {fileID: -9169450042481154775, guid: ac393853980b97e478f01b1f044911ac, type: 2}

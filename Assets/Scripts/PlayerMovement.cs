@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] float m_ShootTimer;
     [SerializeField] GameObject m_Bullet;
+    [SerializeField] float m_playerShootForce;
     Coroutine m_newCoroutine;
 
     [Header("Other")]
@@ -82,7 +83,10 @@ public class PlayerMovement : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(m_Bullet, transform.position, Quaternion.identity);
+            GameObject _shotBullet = Instantiate(m_Bullet, transform.position, Quaternion.identity);
+            BulletScript _bulletScript = _shotBullet.GetComponent<BulletScript>();
+            _bulletScript.m_ShootDirection = Vector2.up;
+            _bulletScript.m_shootForce = m_playerShootForce;
             yield return new WaitForSeconds(m_ShootTimer / 2);
         }  
     }

@@ -4937,6 +4937,7 @@ MonoBehaviour:
   m_Drag: 20
   m_ShootTimer: 0.5
   m_Bullet: {fileID: 3055747310050211431, guid: 10fd79386b232e146852c88339b4dd87, type: 3}
+  m_playerShootForce: 700
   m_IsPaused: 0
 --- !u!114 &9169900392827331703
 MonoBehaviour:

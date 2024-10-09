@@ -3,14 +3,15 @@ using UnityEngine;
 public class BulletScript : MonoBehaviour
 {
     Rigidbody2D m_rb;
-    [SerializeField] float m_shootForce;
+    public float m_shootForce;
     bool m_canDamage = false;
+    public Vector2 m_ShootDirection;
 
     private void Start()
     {
         m_rb = GetComponent<Rigidbody2D>();
 
-        m_rb.AddForce(Vector2.up * m_shootForce, ForceMode2D.Force);
+        m_rb.AddForce(m_ShootDirection * m_shootForce, ForceMode2D.Force);
 
         Destroy(gameObject, 5);
     }
@@ -24,8 +25,6 @@ public class BulletScript : MonoBehaviour
     {
         if (m_canDamage)
         {
-            Destroy(gameObject);
-
             HitPoints _hitPoints = collision.gameObject.GetComponent<HitPoints>();
             if(_hitPoints != null)
             {
@@ -35,6 +34,12 @@ public class BulletScript : MonoBehaviour
             {
                 Debug.Log("Object does not have HitPoints script");
             }
+
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                PlayerSettings.Instance.playerHP--;
+            }
+            Destroy(gameObject);
         }
     }
 }
