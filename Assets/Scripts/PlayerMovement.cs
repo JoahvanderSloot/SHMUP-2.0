@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject m_Bullet;
     [SerializeField] float m_playerShootForce;
     Coroutine m_newCoroutine;
+    private bool m_zAttack = false;
+    [SerializeField] GameObject m_attackParticles;
 
     [Header("Other")]
     public bool m_IsPaused = false;
@@ -86,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject _shotBullet = Instantiate(m_Bullet, transform.position, Quaternion.identity);
             _shotBullet.GetComponent<SpriteRenderer>().color = Color.white;
             BulletScript _bulletScript = _shotBullet.GetComponent<BulletScript>();
+            _bulletScript.m_canDamageEnemy = true;
             _bulletScript.m_ShootDirection = Vector2.up;
             _bulletScript.m_shootForce = m_playerShootForce;
             yield return new WaitForSeconds(m_ShootTimer / 2);
@@ -96,8 +99,23 @@ public class PlayerMovement : MonoBehaviour
     {
         m_IsPaused = !m_IsPaused;
     }
+    
+    public void InstaKill()
+    {
+        if (!m_zAttack)
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-    // Other player logic
+            Instantiate(m_attackParticles, transform.position, Quaternion.identity);
+
+            foreach (GameObject enemy in enemies)
+            {
+                Destroy(enemy);
+            }
+            m_zAttack = true;
+        }
+    }
+
     void ScreenWrap()
     {
         float _rightSideOfScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x + 0.15f;

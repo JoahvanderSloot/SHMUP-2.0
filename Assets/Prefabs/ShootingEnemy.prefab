@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6786671911991476555
 Transform:
   m_ObjectHideFlags: 0
@@ -199,9 +199,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057c4033e2c1c144e85fe52d364c52f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_hitPoints: {fileID: 0}
   m_powerUp: {fileID: 0}
   m_enemyType: 1
+  m_isHit: 0
+  m_hitPoints: {fileID: 0}
+  m_Score: 0
   m_bullet: {fileID: 3055747310050211431, guid: 10fd79386b232e146852c88339b4dd87, type: 3}
   m_ShootTimer: 1.5
   m_enemyShootForce: 500

@@ -5,6 +5,9 @@ public class EnemyBase : MonoBehaviour
     [Header("Generic enemy info")]
     [SerializeField] GameObject m_powerUp;
     public int m_enemyType = 1;
+    public bool m_isHit = false;
+    private float m_hitTimer = 0;
+    private SpriteRenderer m_spriteRenderer;
 
     [Header("Protected variables")]
     [SerializeField] protected HitPoints m_hitPoints;
@@ -34,6 +37,8 @@ public class EnemyBase : MonoBehaviour
         {
             m_Score *= 2;
         }
+
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     Vector3 GetRandomPosition()
@@ -78,5 +83,27 @@ public class EnemyBase : MonoBehaviour
                 m_isInPosition = true;
             }
         }
+
+        if (m_isHit)
+        {
+            m_hitTimer += Time.deltaTime * 10;
+            if(m_hitTimer >= 1)
+            {
+                Color _tickColor = m_spriteRenderer.color;
+                _tickColor.a = 1f;
+                m_spriteRenderer.color = _tickColor;
+                m_isHit = false;
+                m_hitTimer = 0;
+            }
+        }
+    }
+
+    public void DamageTick()
+    {
+        Color _tickColor = m_spriteRenderer.color;
+        _tickColor.a = 50f / 255f;
+        m_spriteRenderer.color = _tickColor;
+
+        m_isHit = true;
     }
 }

@@ -1,14 +1,29 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Boss : EnemyBase
 {
-    [SerializeField] float m_newMovementPhaseTimer;
-    [SerializeField] int m_currentMovementPhase;
     [SerializeField] GameObject m_bullet;
     Vector2 m_moveDirection;
+    [SerializeField] float m_fireRate;
+    bool m_isReadyToSpiral;
+    bool m_shouldSpiral = true;
+    bool m_choseNewPhase = false;
+    private Vector3 m_startPos = new Vector3(-1f, 2f, 0f);
+    Quaternion m_startRotation;
 
     Coroutine m_attackCoroutine;
+    Coroutine m_phaseSwitchCoroutine;
+
+    private enum bossPhases
+    {
+        still,
+        sideToSide,
+        spiral,
+    }
+
+    bossPhases m_currentPhase;
 
     protected override void Start()
     {
@@ -19,21 +34,40 @@ public class Boss : EnemyBase
         m_hitPoints.m_HP = (4 * PlayerSettings.Instance.wave) + 12;
 
         m_moveDirection = new Vector2(Random.value > 0.5f ? 1 : -1, 0);
-        m_Speed += (m_floatWave / 4);
+        m_Speed += (m_floatWave / 4);       
     }
 
     protected override void Update()
     {
         base.Update();
-        if(m_attackCoroutine == null && m_isInPosition)
+        if (m_attackCoroutine == null && m_isInPosition)
         {
             m_attackCoroutine = StartCoroutine(BossAttack(500));
         }
-        if(m_isInPosition)
+        if (m_isInPosition && m_phaseSwitchCoroutine == null)
         {
-            BossMovement();
+            m_phaseSwitchCoroutine = StartCoroutine(PhaseSwitchingCoroutine());
         }
-        BossRotation();
+
+        switch (m_currentPhase)
+        {
+            case bossPhases.still:
+                BossRotation();
+                m_fireRate = 0.9f;
+                break;
+            case bossPhases.sideToSide:
+                BossRotation();
+                BossMovement();
+                m_fireRate = 1.2f;
+                break;
+            case bossPhases.spiral:
+                m_fireRate = 0.25f;
+                if (m_shouldSpiral)
+                {
+                    BossSpiral();
+                }
+                break;
+        }
     }
 
     IEnumerator BossAttack(float _shootForce)
@@ -45,7 +79,7 @@ public class Boss : EnemyBase
             BulletScript _enemyBullet = _instantedBullet.GetComponent<BulletScript>();
             _enemyBullet.m_shootForce = _shootForce;
             _enemyBullet.m_ShootDirection = transform.up;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(m_fireRate);
         }
     }
 
@@ -72,5 +106,68 @@ public class Boss : EnemyBase
         }
 
         m_rb.AddForce(m_moveDirection.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
+    }
+    private void BossSpiral()
+    {
+        if (!m_isReadyToSpiral)
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+
+            Vector3 _spiralPos = m_startPos;
+            float _range = 0.1f;
+
+            transform.position = Vector2.Lerp(transform.position, _spiralPos, (m_Speed / 2) * Time.deltaTime);
+
+            if (Vector2.Distance(transform.position, _spiralPos) < _range)
+            {
+                m_isReadyToSpiral = true;
+                m_startRotation = transform.rotation;
+            }
+        }
+        else
+        {
+            float _turnSpeed = 200f;
+            transform.Rotate(0, 0, _turnSpeed * Time.deltaTime);
+
+            m_moveDirection = transform.up;
+
+            m_rb.AddForce(m_moveDirection.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
+
+            if(transform.rotation == m_startRotation)
+            {
+                m_isReadyToSpiral = false;
+                m_shouldSpiral = false;
+                m_choseNewPhase = true;
+            }
+        }
+    }
+
+    private void BossReturnToStart()
+    {
+        float _range = 0.1f;
+        transform.position = Vector2.Lerp(transform.position, m_startPos, (m_Speed / 2) * Time.deltaTime);
+
+        if (Vector2.Distance(transform.position, m_startPos) < _range)
+        {
+            m_choseNewPhase = true;
+        }
+    }
+
+    IEnumerator PhaseSwitchingCoroutine()
+    {
+        while (true)
+        {
+            if (m_choseNewPhase)
+            {
+                m_currentPhase = (bossPhases)Random.Range(0, System.Enum.GetValues(typeof(bossPhases)).Length);
+                m_choseNewPhase = false;
+                m_shouldSpiral = true;
+            }
+            else if (m_currentPhase != bossPhases.spiral)
+            {
+                yield return new WaitForSeconds(Random.Range(2, 10));
+                m_choseNewPhase = true;
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ public class BulletScript : MonoBehaviour
     public float m_shootForce;
     bool m_canDamage = false;
     public Vector2 m_ShootDirection;
+    public bool m_canDamageEnemy = false;
 
     private void Start()
     {
@@ -23,22 +24,24 @@ public class BulletScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (m_canDamage)
+        if (m_canDamage && m_canDamageEnemy)
         {
             HitPoints _hitPoints = collision.gameObject.GetComponent<HitPoints>();
             if (_hitPoints != null)
             {
                 _hitPoints.m_HP--;
             }
-            else
+            EnemyBase _enemyBase = collision.gameObject.GetComponent<EnemyBase>();
+            if (_enemyBase != null)
             {
-                Debug.Log("Object does not have HitPoints script");
+                _enemyBase.DamageTick();
             }
+            Destroy(gameObject);
+        }
 
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                PlayerSettings.Instance.playerHP--;
-            }
+        if (collision.gameObject.CompareTag("Player") && m_canDamage)
+        {
+            PlayerSettings.Instance.playerHP--;
             Destroy(gameObject);
         }
     }

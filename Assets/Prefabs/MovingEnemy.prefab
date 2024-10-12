@@ -141,9 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5de562782d0fcf4fab5180f915552dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_hitPoints: {fileID: 0}
   m_powerUp: {fileID: 0}
   m_enemyType: 1
+  m_isHit: 0
+  m_hitPoints: {fileID: 0}
+  m_Score: 0
 --- !u!114 &5255595292143212948
 MonoBehaviour:
   m_ObjectHideFlags: 0
