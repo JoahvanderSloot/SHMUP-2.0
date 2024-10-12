@@ -3,14 +3,16 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
     [Header("Generic enemy info")]
-    [SerializeField] HitPoints m_hitPoints;
     [SerializeField] GameObject m_powerUp;
     public int m_enemyType = 1;
 
     [Header("Protected variables")]
+    [SerializeField] protected HitPoints m_hitPoints;
+    [SerializeField] protected int m_Score;
     protected bool m_isInPosition = false;
     protected float m_Speed = 8;
     protected Rigidbody2D m_rb;
+    protected float m_floatWave;
 
     [Header("Lerp into position variables")]
     private float m_maxX = 8;
@@ -22,6 +24,16 @@ public class EnemyBase : MonoBehaviour
     {
         m_hitPoints = GetComponent<HitPoints>();
         m_randomPosition = GetRandomPosition();
+
+        m_rb = GetComponent<Rigidbody2D>();
+        m_rb.drag = 20;
+
+        m_floatWave += PlayerSettings.Instance.wave;
+
+        if (m_enemyType == 1)
+        {
+            m_Score *= 2;
+        }
     }
 
     Vector3 GetRandomPosition()
@@ -39,12 +51,12 @@ public class EnemyBase : MonoBehaviour
             {
                 Debug.Log("Spawn powerup");
                 //Instantiate(m_powerUp);
-                PlayerSettings.Instance.score += 5 * PlayerSettings.Instance.wave;
+                PlayerSettings.Instance.score += m_Score * PlayerSettings.Instance.wave;
                 Destroy(gameObject);
             }
             else
             {
-                PlayerSettings.Instance.score += 5 * PlayerSettings.Instance.wave;
+                PlayerSettings.Instance.score += m_Score * PlayerSettings.Instance.wave;
                 Destroy(gameObject);
             }
         }

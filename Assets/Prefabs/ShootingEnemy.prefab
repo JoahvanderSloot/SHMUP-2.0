@@ -201,7 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_hitPoints: {fileID: 0}
   m_powerUp: {fileID: 0}
-  m_enemyType: 0
+  m_enemyType: 1
   m_bullet: {fileID: 3055747310050211431, guid: 10fd79386b232e146852c88339b4dd87, type: 3}
   m_ShootTimer: 1.5
   m_enemyShootForce: 500

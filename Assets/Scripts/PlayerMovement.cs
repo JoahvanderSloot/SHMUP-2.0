@@ -84,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
         while (true)
         {
             GameObject _shotBullet = Instantiate(m_Bullet, transform.position, Quaternion.identity);
+            _shotBullet.GetComponent<SpriteRenderer>().color = Color.white;
             BulletScript _bulletScript = _shotBullet.GetComponent<BulletScript>();
             _bulletScript.m_ShootDirection = Vector2.up;
             _bulletScript.m_shootForce = m_playerShootForce;
