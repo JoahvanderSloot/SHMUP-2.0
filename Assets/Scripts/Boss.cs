@@ -62,9 +62,11 @@ public class Boss : EnemyBase
                 break;
             case bossPhases.spiral:
                 m_fireRate = 0.25f;
+                BossMovement();
+                PanickAttack();
                 if (m_shouldSpiral)
                 {
-                    BossSpiral();
+                    //BossSpiral();
                 }
                 break;
         }
@@ -157,6 +159,9 @@ public class Boss : EnemyBase
     {
         while (true)
         {
+            m_currentPhase = (bossPhases)Random.Range(0, System.Enum.GetValues(typeof(bossPhases)).Length);
+            yield return new WaitForSeconds(Random.Range(2, 10));
+
             if (m_choseNewPhase)
             {
                 m_currentPhase = (bossPhases)Random.Range(0, System.Enum.GetValues(typeof(bossPhases)).Length);
@@ -170,4 +175,12 @@ public class Boss : EnemyBase
             }
         }
     }
+
+    private void PanickAttack()
+    {
+        float spinSpeed = 1000f;
+        transform.Rotate(Vector3.forward, spinSpeed * Time.deltaTime);
+        m_fireRate = 0.1f;
+    }
+
 }
