@@ -26,7 +26,7 @@ public class BulletScript : MonoBehaviour
         if (m_canDamage)
         {
             HitPoints _hitPoints = collision.gameObject.GetComponent<HitPoints>();
-            if(_hitPoints != null)
+            if (_hitPoints != null)
             {
                 _hitPoints.m_HP--;
             }
