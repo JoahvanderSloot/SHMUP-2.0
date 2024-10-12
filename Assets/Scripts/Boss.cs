@@ -109,6 +109,9 @@ public class Boss : EnemyBase
 
         m_rb.AddForce(m_moveDirection.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
     }
+
+    // BossSpiral spirals the boss once and then stops it and should go back to the startposition and ten chose a new attack
+    // this did not work so i dont use it anymore, the boss completely spaces
     private void BossSpiral()
     {
         if (!m_isReadyToSpiral)
@@ -144,17 +147,6 @@ public class Boss : EnemyBase
         }
     }
 
-    private void BossReturnToStart()
-    {
-        float _range = 0.1f;
-        transform.position = Vector2.Lerp(transform.position, m_startPos, (m_Speed / 2) * Time.deltaTime);
-
-        if (Vector2.Distance(transform.position, m_startPos) < _range)
-        {
-            m_choseNewPhase = true;
-        }
-    }
-
     IEnumerator PhaseSwitchingCoroutine()
     {
         while (true)
@@ -162,7 +154,8 @@ public class Boss : EnemyBase
             m_currentPhase = (bossPhases)Random.Range(0, System.Enum.GetValues(typeof(bossPhases)).Length);
             yield return new WaitForSeconds(Random.Range(2, 10));
 
-            if (m_choseNewPhase)
+            // this below was used to make the spiral attack work but it didnt work so i need to look at this before i delete it
+           /* if (m_choseNewPhase)
             {
                 m_currentPhase = (bossPhases)Random.Range(0, System.Enum.GetValues(typeof(bossPhases)).Length);
                 m_choseNewPhase = false;
@@ -172,7 +165,7 @@ public class Boss : EnemyBase
             {
                 yield return new WaitForSeconds(Random.Range(2, 10));
                 m_choseNewPhase = true;
-            }
+            }*/
         }
     }
 

@@ -55,7 +55,7 @@ public class EnemyBase : MonoBehaviour
             if(Random.Range(0, 4) == 1)
             {
                 Debug.Log("Spawn powerup");
-                //Instantiate(m_powerUp);
+                Instantiate(m_powerUp, transform.position, Quaternion.identity);
                 PlayerSettings.Instance.score += m_Score * PlayerSettings.Instance.wave;
                 Destroy(gameObject);
             }
