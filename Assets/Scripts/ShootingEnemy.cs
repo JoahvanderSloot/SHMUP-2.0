@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -15,11 +14,16 @@ public class ShootingEnemy : EnemyBase
     protected override void Start()
     {
         base.Start();
-        m_ShootTimer -= PlayerSettings.Instance.wave / 2;
+        m_ShootTimer += m_ShootTimer / (PlayerSettings.Instance.wave + 1);
     }
 
     protected override void Update()
     {
+        if(m_ShootTimer <= 1)
+        {
+            m_ShootTimer = 1;
+        }
+
         base.Update();
 
         if (m_isInPosition)

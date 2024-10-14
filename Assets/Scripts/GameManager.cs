@@ -35,6 +35,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if(m_waveCount > 0)
+        {
+            PlayerSettings.Instance.wave = m_waveCount;
+        }
+
         if (PlayerSettings.Instance.playerHP <= 0)
         {
             SceneManager.LoadScene("GameOver");

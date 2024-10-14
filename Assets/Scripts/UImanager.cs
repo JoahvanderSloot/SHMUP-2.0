@@ -9,6 +9,7 @@ public class UImanager : MonoBehaviour
     [Header("Score")]
     [SerializeField] TextMeshProUGUI m_score;
     PlayerMovement m_playerMovement;
+    [SerializeField] TextMeshProUGUI m_wave;
     [Header("Menu")]
     [SerializeField] GameObject m_escMenu;
     [Header("Damage")]
@@ -28,6 +29,7 @@ public class UImanager : MonoBehaviour
     private void Update()
     {
         m_score.text = PlayerSettings.Instance.IGN + ": " + PlayerSettings.Instance.score.ToString();
+        m_wave.text = "Wave: " + PlayerSettings.Instance.wave.ToString();
 
         if (m_playerMovement.m_IsPaused)
         {

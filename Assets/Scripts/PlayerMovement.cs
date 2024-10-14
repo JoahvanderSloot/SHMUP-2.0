@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
@@ -29,8 +30,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Other")]
     public bool m_IsPaused = false;
-    public bool m_isHit = false;
-    private float m_hitTimer = 0;
+    public bool m_healingPickedUp = false;
+    private float m_flashGreenTimer = 0;
     private SpriteRenderer m_spriteRenderer;
 
     private void Start()
@@ -41,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        m_zAttack = false ;
+
         if (!m_IsPaused)
         {
             Move();
@@ -90,16 +93,16 @@ public class PlayerMovement : MonoBehaviour
 
         PlayerSettings.Instance.shieldIsActive = m_shield;
 
-        if (m_isHit)
+        if (m_healingPickedUp)
         {
-            m_hitTimer += Time.deltaTime * 10;
-            if (m_hitTimer >= 1)
+            m_flashGreenTimer += Time.deltaTime * 10;
+            if (m_flashGreenTimer >= 2)
             {
                 Color _tickColor = m_spriteRenderer.color;
                 _tickColor.r = 1f;
                 m_spriteRenderer.color = _tickColor;
-                m_isHit = false;
-                m_hitTimer = 0;
+                m_healingPickedUp = false;
+                m_flashGreenTimer = 0;
             }
         }
     }
@@ -160,18 +163,25 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!m_zAttack)
         {
-            GameObject[] _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            List<GameObject> _targets = new List<GameObject>();
+
+            _targets.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+            _targets.AddRange(GameObject.FindGameObjectsWithTag("Bullet"));
 
             Instantiate(m_attackParticles, transform.position, Quaternion.identity);
 
-            foreach (GameObject _enemy in _enemies)
+            foreach (GameObject _target in _targets)
             {
-                if (_enemy.GetComponent<Boss>() == null)
+                if (_target.GetComponent<Boss>() == null)
                 {
-                    Instantiate(PlayerSettings.Instance.explotion, _enemy.transform.position, Quaternion.identity);
-                    Destroy(_enemy);
+                    if (_target.CompareTag("Enemy"))
+                    {
+                        Instantiate(PlayerSettings.Instance.explotion, _target.transform.position, Quaternion.identity);
+                    }
+                    Destroy(_target);
                 }
             }
+
             m_zAttack = true;
         }
     }
@@ -225,7 +235,7 @@ public class PlayerMovement : MonoBehaviour
         _tickColor.r = 10f / 255f;
         m_spriteRenderer.color = _tickColor;
 
-        m_isHit = true;
+        m_healingPickedUp = true;
     }
 
     IEnumerator ShieldFlicker()
