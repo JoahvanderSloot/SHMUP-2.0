@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerMovement : MonoBehaviour
@@ -19,6 +20,12 @@ public class PlayerMovement : MonoBehaviour
     private bool m_zAttack = false;
     [SerializeField] GameObject m_attackParticles;
 
+    [Header("Powerups")]
+    [SerializeField] bool m_shield = false;
+    float m_shieldTimer = 0;
+    [SerializeField] float m_shieldDuration = 50;
+    [SerializeField] float m_shieldRadius = 2f;
+
     [Header("Other")]
     public bool m_IsPaused = false;
 
@@ -34,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
             Move();
             ScreenWrap();
         }
-        
+
         m_rb.drag = m_Drag;
 
         if (m_IsPaused)
@@ -45,15 +52,34 @@ public class PlayerMovement : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+
+        if (m_shield)
+        {
+            m_shieldTimer += Time.deltaTime;
+            if (m_shieldTimer >= m_shieldDuration)
+            {
+                m_shield = false;
+                m_shieldTimer = 0;
+            }
+            else
+            {
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, m_shieldRadius);
+                foreach (Collider2D collider in colliders)
+                {
+                    if (collider.CompareTag("Enemy"))
+                    {
+                        Destroy(collider.gameObject);
+                    }
+                }
+            }
+        }
     }
 
-    // All the playercontrol functions
     public void Move()
     {
         Vector2 _data = m_MoveInput.action.ReadValue<Vector2>();
 
         m_rb.AddForce(_data.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
-
 
         if (_data == Vector2.right && !m_IsPaused)
         {
@@ -89,17 +115,18 @@ public class PlayerMovement : MonoBehaviour
             _shotBullet.GetComponent<SpriteRenderer>().color = Color.white;
             BulletScript _bulletScript = _shotBullet.GetComponent<BulletScript>();
             _bulletScript.m_canDamageEnemy = true;
+            _bulletScript.m_damage = PlayerSettings.Instance.shipLevel + 1;
             _bulletScript.m_ShootDirection = Vector2.up;
             _bulletScript.m_shootForce = m_playerShootForce;
             yield return new WaitForSeconds(m_ShootTimer / 2);
-        }  
+        }
     }
 
     public void Pause()
     {
         m_IsPaused = !m_IsPaused;
     }
-    
+
     public void InstaKill()
     {
         if (!m_zAttack)
@@ -121,11 +148,11 @@ public class PlayerMovement : MonoBehaviour
         float _rightSideOfScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x + 0.15f;
         float _leftSideOfScreen = -_rightSideOfScreen - 0.15f;
 
-        if(transform.position.x > _rightSideOfScreen)
+        if (transform.position.x > _rightSideOfScreen)
         {
             transform.position = new Vector2(_leftSideOfScreen, transform.position.y);
         }
-        if(transform.position.x < _leftSideOfScreen)
+        if (transform.position.x < _leftSideOfScreen)
         {
             transform.position = new Vector2(_rightSideOfScreen, transform.position.y);
         }
@@ -133,9 +160,27 @@ public class PlayerMovement : MonoBehaviour
 
     public void PowerUp(string _powerUpName)
     {
-        if(_powerUpName == "HP")
+        if (_powerUpName == "HP")
         {
             PlayerSettings.Instance.playerHP++;
         }
+        if (_powerUpName == "Upgrade")
+        {
+            PlayerSettings.Instance.shipLevel++;
+        }
+        if (_powerUpName == "Instakill")
+        {
+            m_zAttack = false;
+        }
+        if (_powerUpName == "Shield")
+        {
+            m_shield = true;
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, m_shieldRadius);
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Boss : EnemyBase
@@ -7,11 +6,6 @@ public class Boss : EnemyBase
     [SerializeField] GameObject m_bullet;
     Vector2 m_moveDirection;
     [SerializeField] float m_fireRate;
-    bool m_isReadyToSpiral;
-    bool m_shouldSpiral = true;
-    bool m_choseNewPhase = false;
-    private Vector3 m_startPos = new Vector3(-1f, 2f, 0f);
-    Quaternion m_startRotation;
 
     Coroutine m_attackCoroutine;
     Coroutine m_phaseSwitchCoroutine;
@@ -20,7 +14,7 @@ public class Boss : EnemyBase
     {
         still,
         sideToSide,
-        spiral,
+        panic
     }
 
     bossPhases m_currentPhase;
@@ -53,21 +47,17 @@ public class Boss : EnemyBase
         {
             case bossPhases.still:
                 BossRotation();
-                m_fireRate = 0.9f;
+                m_fireRate = 0.5f;
                 break;
             case bossPhases.sideToSide:
                 BossRotation();
                 BossMovement();
-                m_fireRate = 1.2f;
+                m_fireRate = 0.9f;
                 break;
-            case bossPhases.spiral:
+            case bossPhases.panic:
                 m_fireRate = 0.25f;
                 BossMovement();
                 PanickAttack();
-                if (m_shouldSpiral)
-                {
-                    //BossSpiral();
-                }
                 break;
         }
     }
@@ -110,62 +100,20 @@ public class Boss : EnemyBase
         m_rb.AddForce(m_moveDirection.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
     }
 
-    // BossSpiral spirals the boss once and then stops it and should go back to the startposition and ten chose a new attack
-    // this did not work so i dont use it anymore, the boss completely spaces
-    private void BossSpiral()
-    {
-        if (!m_isReadyToSpiral)
-        {
-            transform.rotation = Quaternion.Euler(0f, 0f, 180f);
-
-            Vector3 _spiralPos = m_startPos;
-            float _range = 0.1f;
-
-            transform.position = Vector2.Lerp(transform.position, _spiralPos, (m_Speed / 2) * Time.deltaTime);
-
-            if (Vector2.Distance(transform.position, _spiralPos) < _range)
-            {
-                m_isReadyToSpiral = true;
-                m_startRotation = transform.rotation;
-            }
-        }
-        else
-        {
-            float _turnSpeed = 200f;
-            transform.Rotate(0, 0, _turnSpeed * Time.deltaTime);
-
-            m_moveDirection = transform.up;
-
-            m_rb.AddForce(m_moveDirection.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
-
-            if(transform.rotation == m_startRotation)
-            {
-                m_isReadyToSpiral = false;
-                m_shouldSpiral = false;
-                m_choseNewPhase = true;
-            }
-        }
-    }
-
     IEnumerator PhaseSwitchingCoroutine()
     {
         while (true)
         {
             m_currentPhase = (bossPhases)Random.Range(0, System.Enum.GetValues(typeof(bossPhases)).Length);
-            yield return new WaitForSeconds(Random.Range(2, 10));
-
-            // this below was used to make the spiral attack work but it didnt work so i need to look at this before i delete it
-           /* if (m_choseNewPhase)
-            {
-                m_currentPhase = (bossPhases)Random.Range(0, System.Enum.GetValues(typeof(bossPhases)).Length);
-                m_choseNewPhase = false;
-                m_shouldSpiral = true;
-            }
-            else if (m_currentPhase != bossPhases.spiral)
+            if(m_currentPhase != bossPhases.still)
             {
                 yield return new WaitForSeconds(Random.Range(2, 10));
-                m_choseNewPhase = true;
-            }*/
+            }
+            else
+            {
+                yield return new WaitForSeconds(Random.Range(2, 5));
+            }
+            
         }
     }
 

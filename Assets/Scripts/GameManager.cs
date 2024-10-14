@@ -7,20 +7,22 @@ public class GameManager : MonoBehaviour
     [Header("Player")]
     [SerializeField] GameObject m_player;
     PlayerMovement m_movement;
+    [SerializeField] List<Sprite> m_playerSprites;
+    SpriteRenderer m_playerSpriteRenderer;
 
-    [Header("Enemys")]
+    [Header("Enemies")]
     [SerializeField] List<GameObject> m_enemys;
 
     private void Start()
     {
         m_movement = m_player.GetComponent<PlayerMovement>();
+        m_playerSpriteRenderer = m_player.GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        if(PlayerSettings.Instance.playerHP <= 0)
+        if (PlayerSettings.Instance.playerHP <= 0)
         {
-            Destroy(m_player);
             SceneManager.LoadScene("GameOver");
         }
 
@@ -28,10 +30,20 @@ public class GameManager : MonoBehaviour
         {
             EnemyWaves();
         }
+
+        if (PlayerSettings.Instance.shipLevel < m_playerSprites.Count)
+        {
+            m_playerSpriteRenderer.sprite = m_playerSprites[PlayerSettings.Instance.shipLevel];
+        }
+
+        if(PlayerSettings.Instance.shipLevel >= 2)
+        {
+            PlayerSettings.Instance.shipLevel = 2;
+        }
     }
 
     private void EnemyWaves()
     {
-
+        
     }
 }

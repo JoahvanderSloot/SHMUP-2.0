@@ -9,5 +9,6 @@ public class PlayerSettings : GenericScriptableSingleton<PlayerSettings>
     public string IGN;
     public int score;
     public int wave;
+    public int shipLevel;
 }
     

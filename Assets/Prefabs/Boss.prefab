@@ -204,6 +204,5 @@ MonoBehaviour:
   m_isHit: 0
   m_hitPoints: {fileID: 0}
   m_Score: 500
-  m_newMovementPhaseTimer: 2
-  m_currentMovementPhase: 0
   m_bullet: {fileID: 3055747310050211431, guid: 10fd79386b232e146852c88339b4dd87, type: 3}
+  m_fireRate: 0

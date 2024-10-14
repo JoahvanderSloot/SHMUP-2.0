@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4632154517919461948
 Transform:
   m_ObjectHideFlags: 0
@@ -205,5 +205,5 @@ MonoBehaviour:
   m_hitPoints: {fileID: 2915443297813113723}
   m_Score: 0
   m_bullet: {fileID: 3055747310050211431, guid: 10fd79386b232e146852c88339b4dd87, type: 3}
-  m_ShootTimer: 3
-  m_enemyShootForce: 500
+  m_ShootTimer: 2
+  m_enemyShootForce: 600

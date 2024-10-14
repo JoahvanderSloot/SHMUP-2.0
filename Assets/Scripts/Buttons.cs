@@ -20,6 +20,7 @@ public class Buttons : MonoBehaviour
         PlayerSettings.Instance.score = 0;
         PlayerSettings.Instance.wave = 1;
         PlayerSettings.Instance.playerHP = 3;
+        PlayerSettings.Instance.shipLevel = 0;
     }
 
     public void MainMenu()

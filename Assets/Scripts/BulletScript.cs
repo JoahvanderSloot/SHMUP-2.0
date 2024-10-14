@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletScript : MonoBehaviour
@@ -7,6 +8,8 @@ public class BulletScript : MonoBehaviour
     bool m_canDamage = false;
     public Vector2 m_ShootDirection;
     public bool m_canDamageEnemy = false;
+    public int m_damage = 1;
+    [SerializeField] List<Sprite> m_bulletSprites;
 
     private void Start()
     {
@@ -15,6 +18,17 @@ public class BulletScript : MonoBehaviour
         m_rb.AddForce(m_ShootDirection * m_shootForce, ForceMode2D.Force);
 
         Destroy(gameObject, 5);
+    }
+
+    private void Update()
+    {
+        gameObject.transform.localScale = new Vector3(2 + m_damage, 2 + m_damage, 2 + m_damage);
+
+        if (m_damage < m_bulletSprites.Count)
+        {
+            SpriteRenderer _playerSpriteRenderer = GetComponent<SpriteRenderer>();
+            _playerSpriteRenderer.sprite = m_bulletSprites[m_damage];
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -29,7 +43,7 @@ public class BulletScript : MonoBehaviour
             HitPoints _hitPoints = collision.gameObject.GetComponent<HitPoints>();
             if (_hitPoints != null)
             {
-                _hitPoints.m_HP--;
+                _hitPoints.m_HP -= m_damage;
             }
             EnemyBase _enemyBase = collision.gameObject.GetComponent<EnemyBase>();
             if (_enemyBase != null)
