@@ -52,18 +52,13 @@ public class EnemyBase : MonoBehaviour
     {
         if(m_hitPoints.m_HP <= 0)
         {
-            if(Random.Range(0, 4) == 1)
+            if (Random.Range(0, 6) == 1)
             {
-                Debug.Log("Spawn powerup");
                 Instantiate(m_powerUp, transform.position, Quaternion.identity);
-                PlayerSettings.Instance.score += m_Score * PlayerSettings.Instance.wave;
-                Destroy(gameObject);
             }
-            else
-            {
-                PlayerSettings.Instance.score += m_Score * PlayerSettings.Instance.wave;
-                Destroy(gameObject);
-            }
+            PlayerSettings.Instance.score += m_Score * PlayerSettings.Instance.wave;
+            Instantiate(PlayerSettings.Instance.explotion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
 
         if (!m_isInPosition)

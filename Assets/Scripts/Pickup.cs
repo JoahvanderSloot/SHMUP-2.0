@@ -6,13 +6,14 @@ public class Pickup : MonoBehaviour
     [SerializeField] string m_name;
     int m_randomName;
     [SerializeField] List<Sprite> m_sprites;
-    SpriteRenderer m_playerSpriteRenderer;
+    SpriteRenderer m_SpriteRenderer;
 
     private void Start()
     {
         Destroy(gameObject, 4);
-        m_playerSpriteRenderer = GetComponent<SpriteRenderer>();
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_randomName = Random.Range(0, 4);
+        m_SpriteRenderer.sprite = m_sprites[m_randomName];
     }
 
     private void Update()
@@ -24,8 +25,17 @@ public class Pickup : MonoBehaviour
                 transform.localScale = new Vector3(5f, 5f, 5f);
                 break;
             case 1:
-                 m_name = "Upgrade";
-                transform.localScale = new Vector3(2f, 2f, 2f);
+                if(PlayerSettings.Instance.shipLevel >= 2)
+                {
+                    m_name = "HP";
+                    m_SpriteRenderer.sprite = m_sprites[0];
+                    transform.localScale = new Vector3(5f, 5f, 5f);
+                }
+                else
+                {
+                    m_name = "Upgrade";
+                    transform.localScale = new Vector3(2f, 2f, 2f);
+                }
                 break;
             case 2:
                 m_name = "Instakill";
@@ -36,8 +46,6 @@ public class Pickup : MonoBehaviour
                 transform.localScale = new Vector3(5.5f, 5.5f, 5.5f);
                 break;
         }
-
-        m_playerSpriteRenderer.sprite = m_sprites[m_randomName];
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

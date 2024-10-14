@@ -573,12 +573,15 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9d203d35aaa0cd4488fcf229d5315f1e, type: 3}
   - {fileID: 21300000, guid: 0d0e0254a2a7f964d80505f55e9b0c4b, type: 3}
   - {fileID: 21300000, guid: 107bdf408b4fe4b4abae65b9a15264c1, type: 3}
-  m_enemys: []
---- !u!1 &969142547 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8894008228868073655, guid: e6cdc5f6b9fe33746a93d85214e886c6, type: 3}
-  m_PrefabInstance: {fileID: 1063880773121068997}
-  m_PrefabAsset: {fileID: 0}
+  m_enemyPrefabs:
+  - {fileID: 8715215293994319427, guid: 4a7daf5e5eba5c9439072dbf06ff923f, type: 3}
+  - {fileID: 4413147320414091718, guid: 1be976c076e7e1c4e960ee0a8c61d02d, type: 3}
+  - {fileID: 6968285742598113982, guid: 9d9b5f775e1b7264688a0e3ea00c9968, type: 3}
+  m_boss: {fileID: 286778037790566039, guid: 39d1a404d249ce54cb279dbea08120a5, type: 3}
+  m_enemySpawnPos: {x: 0, y: 10, z: 0}
+  m_minEnemiesPerWave: 3
+  m_maxEnemiesPerWave: 6
+  m_enemySpawnDelay: 1
 --- !u!1 &985750936
 GameObject:
   m_ObjectHideFlags: 0
@@ -7046,10 +7049,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5714950153085671455, guid: e6cdc5f6b9fe33746a93d85214e886c6, type: 3}
-      propertyPath: m_shieldObject
-      value: 
-      objectReference: {fileID: 969142547}
     - target: {fileID: 9169900392827331703, guid: e6cdc5f6b9fe33746a93d85214e886c6, type: 3}
       propertyPath: m_Camera
       value: 

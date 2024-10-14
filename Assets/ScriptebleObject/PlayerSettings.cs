@@ -9,5 +9,7 @@ public class PlayerSettings : GenericScriptableSingleton<PlayerSettings>
     public int score;
     public int wave;
     public int shipLevel;
+    public bool shieldIsActive;
+    public GameObject explotion;
 }
     

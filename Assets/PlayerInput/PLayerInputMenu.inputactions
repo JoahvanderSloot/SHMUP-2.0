@@ -207,6 +207,17 @@
                     "action": "InstaKill",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6cc997ca-31c6-4045-8508-0e50d2b60295",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "InstaKill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

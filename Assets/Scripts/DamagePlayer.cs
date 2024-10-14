@@ -9,8 +9,7 @@ public class DamagePlayer : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerSettings.Instance.playerHP -= m_DamagePoints;
-            //instantiate explotion
-            //playe sound
+            Instantiate(PlayerSettings.Instance.explotion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
         if (collision.gameObject.CompareTag(gameObject.tag))

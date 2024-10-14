@@ -4945,6 +4945,7 @@ MonoBehaviour:
   m_shieldRadius: 1
   m_shieldObject: {fileID: 8894008228868073655}
   m_IsPaused: 0
+  m_isHit: 0
 --- !u!114 &9169900392827331703
 MonoBehaviour:
   m_ObjectHideFlags: 0

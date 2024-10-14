@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BulletScript : MonoBehaviour
@@ -29,6 +30,11 @@ public class BulletScript : MonoBehaviour
             SpriteRenderer _playerSpriteRenderer = GetComponent<SpriteRenderer>();
             _playerSpriteRenderer.sprite = m_bulletSprites[m_damage];
         }
+
+        if(transform.position.y >= 5.5)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -55,8 +61,15 @@ public class BulletScript : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player") && m_canDamage)
         {
-            PlayerSettings.Instance.playerHP--;
+            if (!PlayerSettings.Instance.shieldIsActive)
+            {
+                PlayerSettings.Instance.playerHP--;
+            }
             Destroy(gameObject);
+        }
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            m_rb.velocity /= 2;
         }
     }
 }

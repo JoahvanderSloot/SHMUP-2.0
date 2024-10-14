@@ -142,10 +142,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_powerUp: {fileID: 4811375984711233192, guid: a61f983b118cd60459066b67de8519a8, type: 3}
+  Explotion: {fileID: 1013176030632602947, guid: 42a9f4ef53b8dc946808369f0e1b10b2, type: 3}
   m_enemyType: 1
   m_isHit: 0
   m_hitPoints: {fileID: 0}
-  m_Score: 0
+  m_Score: 5
 --- !u!114 &5255595292143212948
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerMovement : MonoBehaviour
@@ -21,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject m_attackParticles;
 
     [Header("Powerups")]
-    [SerializeField] bool m_shield = false;
+    public bool m_shield = false;
     float m_shieldTimer = 0;
     [SerializeField] float m_shieldDuration = 50;
     [SerializeField] float m_shieldRadius = 2f;
@@ -83,10 +82,13 @@ public class PlayerMovement : MonoBehaviour
                     if (collider.CompareTag("Enemy"))
                     {
                         Destroy(collider.gameObject);
+                        Instantiate(PlayerSettings.Instance.explotion, collider.gameObject.transform.position, Quaternion.identity);
                     }
                 }
             }
         }
+
+        PlayerSettings.Instance.shieldIsActive = m_shield;
 
         if (m_isHit)
         {
@@ -158,13 +160,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!m_zAttack)
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            GameObject[] _enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
             Instantiate(m_attackParticles, transform.position, Quaternion.identity);
 
-            foreach (GameObject enemy in enemies)
+            foreach (GameObject _enemy in _enemies)
             {
-                Destroy(enemy);
+                if (_enemy.GetComponent<Boss>() == null)
+                {
+                    Instantiate(PlayerSettings.Instance.explotion, _enemy.transform.position, Quaternion.identity);
+                    Destroy(_enemy);
+                }
             }
             m_zAttack = true;
         }
@@ -228,9 +234,9 @@ public class PlayerMovement : MonoBehaviour
 
         while (true)
         {
-            if (m_shieldTimer >= m_shieldDuration / 8)
+            if (m_shieldTimer >= m_shieldDuration - m_shieldDuration / 7)
             {
-                while (m_shieldTimer >= m_shieldDuration / 8)
+                while (m_shieldTimer >= m_shieldDuration - m_shieldDuration / 7)
                 {
                     Color _shieldColor = _shieldSR.color;
 
