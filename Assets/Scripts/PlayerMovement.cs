@@ -42,8 +42,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        m_zAttack = false ;
-
         if (!m_IsPaused)
         {
             Move();
@@ -176,6 +174,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (_target.CompareTag("Enemy"))
                     {
+                        EnemyBase _enemyBase = _target.GetComponent<EnemyBase>();
+                        PlayerSettings.Instance.score += _enemyBase.m_Score;
                         Instantiate(PlayerSettings.Instance.explotion, _target.transform.position, Quaternion.identity);
                     }
                     Destroy(_target);

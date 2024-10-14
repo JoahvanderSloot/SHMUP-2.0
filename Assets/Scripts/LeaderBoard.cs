@@ -19,11 +19,23 @@ public class LeaderBoard : MonoBehaviour
 
     private void UpdateScore()
     {
+        for (int i = m_NamesList.Count - 1; i >= 0; i--)
+        {
+            if (string.IsNullOrEmpty(m_NamesList[i]))
+            {
+                m_NamesList.RemoveAt(i);
+                m_ScoreList.RemoveAt(i);
+            }
+        }
+
         if (!m_NamesList.Contains(PlayerSettings.Instance.IGN))
         {
-            m_NamesList.Add(PlayerSettings.Instance.IGN);
-            m_ScoreList.Add(PlayerSettings.Instance.score);
-            CheckForRanking();
+            if (!string.IsNullOrEmpty(PlayerSettings.Instance.IGN))
+            {
+                m_NamesList.Add(PlayerSettings.Instance.IGN);
+                m_ScoreList.Add(PlayerSettings.Instance.score);
+                CheckForRanking();
+            }
         }
         else
         {
@@ -62,6 +74,28 @@ public class LeaderBoard : MonoBehaviour
         SaveData();
     }
 
+    public void LoadData()
+    {
+        string path = Application.persistentDataPath + "/leaderboard.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            LeaderboardData data = JsonUtility.FromJson<LeaderboardData>(json);
+
+            m_NamesList = data.NamesList;
+            m_ScoreList = data.ScoreList;
+
+            for (int i = m_NamesList.Count - 1; i >= 0; i--)
+            {
+                if (string.IsNullOrEmpty(m_NamesList[i]))
+                {
+                    m_NamesList.RemoveAt(i);
+                    m_ScoreList.RemoveAt(i);
+                }
+            }
+        }
+    }
+
     private void CheckForRanking()
     {
         List<(string name, int score)> combinedList = new List<(string, int)>();
@@ -91,19 +125,6 @@ public class LeaderBoard : MonoBehaviour
 
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/leaderboard.json", json);
-    }
-
-    public void LoadData()
-    {
-        string path = Application.persistentDataPath + "/leaderboard.json";
-        if (File.Exists(path))
-        {
-            string json = File.ReadAllText(path);
-            LeaderboardData data = JsonUtility.FromJson<LeaderboardData>(json);
-
-            m_NamesList = data.NamesList;
-            m_ScoreList = data.ScoreList;
-        }
     }
 }
 

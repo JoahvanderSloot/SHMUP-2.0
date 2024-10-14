@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b82f6e781a2d34793ddeecb095bcab, type: 3}
   m_Name: GameInfo
   m_EditorClassIdentifier: 
-  playerHP: 2
-  IGN: Joah
-  score: 2025
-  wave: 1
-  shipLevel: 2
-  shieldIsActive: 1
+  playerHP: 0
+  IGN: 
+  score: 10
+  wave: 2
+  shipLevel: 0
+  shieldIsActive: 0
   explotion: {fileID: 1013176030632602947, guid: 42a9f4ef53b8dc946808369f0e1b10b2, type: 3}

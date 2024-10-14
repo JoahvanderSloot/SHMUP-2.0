@@ -11,7 +11,7 @@ public class EnemyBase : MonoBehaviour
 
     [Header("Protected variables")]
     [SerializeField] protected HitPoints m_hitPoints;
-    [SerializeField] protected int m_Score;
+    public int m_Score;
     protected bool m_isInPosition = false;
     protected float m_Speed = 8;
     protected Rigidbody2D m_rb;
@@ -52,7 +52,7 @@ public class EnemyBase : MonoBehaviour
     {
         if(m_hitPoints.m_HP <= 0)
         {
-            if (Random.Range(0, 6) == 1)
+            if (Random.Range(0, 5) == 1)
             {
                 Instantiate(m_powerUp, transform.position, Quaternion.identity);
             }
