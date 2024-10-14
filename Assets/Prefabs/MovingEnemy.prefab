@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5de562782d0fcf4fab5180f915552dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_powerUp: {fileID: 0}
+  m_powerUp: {fileID: 4811375984711233192, guid: a61f983b118cd60459066b67de8519a8, type: 3}
   m_enemyType: 1
   m_isHit: 0
   m_hitPoints: {fileID: 0}

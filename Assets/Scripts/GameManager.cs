@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
         {
             PlayerSettings.Instance.shipLevel = 2;
         }
+        if(PlayerSettings.Instance.playerHP > 3)
+        {
+            PlayerSettings.Instance.playerHP = 3;
+        }
     }
 
     private void EnemyWaves()

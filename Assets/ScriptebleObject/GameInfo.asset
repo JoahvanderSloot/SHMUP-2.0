@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: GameInfo
   m_EditorClassIdentifier: 
   audio: 1
-  playerHP: 963
+  playerHP: 3
   IGN: Joah
-  score: 12510
+  score: 0
   wave: 1
-  shipLevel: 1
+  shipLevel: 0

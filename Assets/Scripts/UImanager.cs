@@ -16,6 +16,8 @@ public class UImanager : MonoBehaviour
     [SerializeField] Image m_damageFlash;
     float m_damageAlpha;
     int m_previousHP;
+    [Header("Special Attacks")]
+    [SerializeField] GameObject m_zAttackUI;
 
     private void Start()
     {
@@ -43,6 +45,15 @@ public class UImanager : MonoBehaviour
         else
         {
             m_escMenu.transform.localScale = Vector2.Lerp(m_escMenu.transform.localScale, Vector2.zero, 10 * Time.unscaledDeltaTime);
+        }
+
+        if (!m_playerMovement.m_zAttack)
+        {
+            m_zAttackUI.SetActive(true);
+        }
+        else
+        {
+            m_zAttackUI.SetActive(false);
         }
 
         UpdateLives();

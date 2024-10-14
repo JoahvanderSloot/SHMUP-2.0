@@ -44,7 +44,7 @@ public class EnemyBase : MonoBehaviour
     Vector3 GetRandomPosition()
     {
         float _randomX = Random.Range(-m_maxX, m_maxX);
-        float _randomY = Random.Range(-m_maxY / 4, m_maxY);
+        float _randomY = Random.Range(1, m_maxY);
         return new Vector3(_randomX, _randomY, 180);
     }
 

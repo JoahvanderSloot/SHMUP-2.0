@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject m_Bullet;
     [SerializeField] float m_playerShootForce;
     Coroutine m_newCoroutine;
-    private bool m_zAttack = false;
+    public bool m_zAttack = false;
     [SerializeField] GameObject m_attackParticles;
 
     [Header("Powerups")]
@@ -25,13 +25,19 @@ public class PlayerMovement : MonoBehaviour
     float m_shieldTimer = 0;
     [SerializeField] float m_shieldDuration = 50;
     [SerializeField] float m_shieldRadius = 2f;
+    [SerializeField] GameObject m_shieldObject;
+    Coroutine m_shieldCoroutine;
 
     [Header("Other")]
     public bool m_IsPaused = false;
+    public bool m_isHit = false;
+    private float m_hitTimer = 0;
+    private SpriteRenderer m_spriteRenderer;
 
     private void Start()
     {
         m_rb = GetComponent<Rigidbody2D>();
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -53,13 +59,21 @@ public class PlayerMovement : MonoBehaviour
             Time.timeScale = 1;
         }
 
+        m_shieldObject.SetActive(m_shield);
+
         if (m_shield)
         {
+            if(m_shieldCoroutine == null)
+            {
+                m_shieldCoroutine = StartCoroutine(ShieldFlicker());
+            }
+
             m_shieldTimer += Time.deltaTime;
             if (m_shieldTimer >= m_shieldDuration)
             {
                 m_shield = false;
                 m_shieldTimer = 0;
+                StopCoroutine(m_shieldCoroutine);
             }
             else
             {
@@ -71,6 +85,19 @@ public class PlayerMovement : MonoBehaviour
                         Destroy(collider.gameObject);
                     }
                 }
+            }
+        }
+
+        if (m_isHit)
+        {
+            m_hitTimer += Time.deltaTime * 10;
+            if (m_hitTimer >= 1)
+            {
+                Color _tickColor = m_spriteRenderer.color;
+                _tickColor.r = 1f;
+                m_spriteRenderer.color = _tickColor;
+                m_isHit = false;
+                m_hitTimer = 0;
             }
         }
     }
@@ -163,6 +190,7 @@ public class PlayerMovement : MonoBehaviour
         if (_powerUpName == "HP")
         {
             PlayerSettings.Instance.playerHP++;
+            FlashGreen();
         }
         if (_powerUpName == "Upgrade")
         {
@@ -174,7 +202,51 @@ public class PlayerMovement : MonoBehaviour
         }
         if (_powerUpName == "Shield")
         {
-            m_shield = true;
+            if (!m_shield)
+            {
+                m_shield = true;
+            }
+            else
+            {
+                m_shieldTimer = 0;
+            }
+        }
+    }
+
+    private void FlashGreen()
+    {
+        Color _tickColor = m_spriteRenderer.color;
+        _tickColor.r = 10f / 255f;
+        m_spriteRenderer.color = _tickColor;
+
+        m_isHit = true;
+    }
+
+    IEnumerator ShieldFlicker()
+    {
+        SpriteRenderer _shieldSR = m_shieldObject.GetComponent<SpriteRenderer>();
+
+        while (true)
+        {
+            if (m_shieldTimer >= m_shieldDuration / 8)
+            {
+                while (m_shieldTimer >= m_shieldDuration / 8)
+                {
+                    Color _shieldColor = _shieldSR.color;
+
+                    _shieldColor.a = 5f / 255f;
+                    _shieldSR.color = _shieldColor;
+                    yield return new WaitForSeconds(0.1f);
+
+                    _shieldColor.a = 25f / 255f;
+                    _shieldSR.color = _shieldColor;
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+            else
+            {
+                yield return new WaitForEndOfFrame();
+            }
         }
     }
 
