@@ -79,11 +79,6 @@ public class UImanager : MonoBehaviour
 
             m_lives[i].color = _currentColor;
         }
-
-        if (PlayerSettings.Instance.playerHP <= 0)
-        {
-            SceneManager.LoadScene("GameOver");
-        }
     }
 
     private void Damage()

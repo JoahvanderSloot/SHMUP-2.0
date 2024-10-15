@@ -21,6 +21,7 @@ public class Buttons : MonoBehaviour
         PlayerSettings.Instance.wave = 1;
         PlayerSettings.Instance.playerHP = 3;
         PlayerSettings.Instance.shipLevel = 0;
+        PlayerSettings.Instance.isRepairing = false;
     }
 
     public void MainMenu()

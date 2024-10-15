@@ -26,23 +26,43 @@ public class GameManager : MonoBehaviour
     bool m_isSpawningWave = false;
     Coroutine m_enemySpawner;
 
+    [Header("Shit Repair")]
+    public bool m_canRepair = true;
+    [SerializeField] GameObject m_repairObject;
+
     private void Start()
     {
         m_movement = m_player.GetComponent<PlayerMovement>();
         m_playerSpriteRenderer = m_player.GetComponent<SpriteRenderer>();
+        m_repairObject.SetActive(false);
         SpawnNewWave();
+        m_canRepair = true;
     }
 
     private void Update()
     {
-        if(m_waveCount > 0)
+        if (m_waveCount > 0)
         {
             PlayerSettings.Instance.wave = m_waveCount;
         }
 
         if (PlayerSettings.Instance.playerHP <= 0)
         {
-            SceneManager.LoadScene("GameOver");
+            if (m_canRepair && !PlayerSettings.Instance.isRepairing)
+            {
+                m_repairObject.SetActive(true);
+                PlayerSettings.Instance.isRepairing = true;
+                m_canRepair = false;
+            }
+            else if (!PlayerSettings.Instance.isRepairing)
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+        }
+
+        if (!PlayerSettings.Instance.isRepairing)
+        {
+            m_repairObject.SetActive(false);
         }
 
         if (!m_movement.m_IsPaused)
