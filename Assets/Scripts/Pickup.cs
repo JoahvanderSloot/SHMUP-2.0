@@ -25,7 +25,7 @@ public class Pickup : MonoBehaviour
                 transform.localScale = new Vector3(5f, 5f, 5f);
                 break;
             case 1:
-                if(PlayerSettings.Instance.shipLevel >= 2)
+                if(GameInfoSingleton.Instance.playerSettings.shipLevel >= 2)
                 {
                     m_name = "HP";
                     m_SpriteRenderer.sprite = m_sprites[0];

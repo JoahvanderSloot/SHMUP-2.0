@@ -28,21 +28,21 @@ public class LeaderBoard : MonoBehaviour
             }
         }
 
-        if (!m_NamesList.Contains(PlayerSettings.Instance.IGN))
+        if (!m_NamesList.Contains(GameInfoSingleton.Instance.playerSettings.IGN))
         {
-            if (!string.IsNullOrEmpty(PlayerSettings.Instance.IGN))
+            if (!string.IsNullOrEmpty(GameInfoSingleton.Instance.playerSettings.IGN))
             {
-                m_NamesList.Add(PlayerSettings.Instance.IGN);
-                m_ScoreList.Add(PlayerSettings.Instance.score);
+                m_NamesList.Add(GameInfoSingleton.Instance.playerSettings.IGN);
+                m_ScoreList.Add(GameInfoSingleton.Instance.playerSettings.score);
                 CheckForRanking();
             }
         }
         else
         {
-            int _currentName = m_NamesList.IndexOf(PlayerSettings.Instance.IGN);
-            if (PlayerSettings.Instance.score > m_ScoreList[_currentName])
+            int _currentName = m_NamesList.IndexOf(GameInfoSingleton.Instance.playerSettings.IGN);
+            if (GameInfoSingleton.Instance.playerSettings.score > m_ScoreList[_currentName])
             {
-                m_ScoreList[_currentName] = PlayerSettings.Instance.score;
+                m_ScoreList[_currentName] = GameInfoSingleton.Instance.playerSettings.score;
                 CheckForRanking();
             }
         }
@@ -62,13 +62,13 @@ public class LeaderBoard : MonoBehaviour
             _newText.text = "#" + _rank + " - " + m_ScoreList[i] + ": " + m_NamesList[i];
         }
 
-        int playerRank = m_NamesList.IndexOf(PlayerSettings.Instance.IGN) + 1;
+        int playerRank = m_NamesList.IndexOf(GameInfoSingleton.Instance.playerSettings.IGN) + 1;
         if (playerRank > 10)
         {
             TextMeshProUGUI playerText = Instantiate(m_LeaderBoard, m_Canvas.transform);
             RectTransform playerRectTransform = playerText.GetComponent<RectTransform>();
             playerRectTransform.anchoredPosition = new Vector2(-290, 220 - displayCount * 15 - 10);
-            playerText.text = "#" + playerRank + " - " + PlayerSettings.Instance.score + ": " + PlayerSettings.Instance.IGN;
+            playerText.text = "#" + playerRank + " - " + GameInfoSingleton.Instance.playerSettings.score + ": " + GameInfoSingleton.Instance.playerSettings.IGN;
         }
 
         SaveData();

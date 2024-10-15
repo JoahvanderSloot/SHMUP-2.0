@@ -23,13 +23,13 @@ public class UImanager : MonoBehaviour
     private void Start()
     {
         m_playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
-        m_previousHP = PlayerSettings.Instance.playerHP;
+        m_previousHP = GameInfoSingleton.Instance.playerSettings.playerHP;
     }
 
     private void Update()
     {
-        m_score.text = PlayerSettings.Instance.IGN + ": " + PlayerSettings.Instance.score.ToString();
-        m_wave.text = "Wave: " + PlayerSettings.Instance.wave.ToString();
+        m_score.text = GameInfoSingleton.Instance.playerSettings.IGN + ": " + GameInfoSingleton.Instance.playerSettings.score.ToString();
+        m_wave.text = "Wave: " + GameInfoSingleton.Instance.playerSettings.wave.ToString();
 
         if (m_playerMovement.m_IsPaused)
         {
@@ -68,7 +68,7 @@ public class UImanager : MonoBehaviour
         {
             Color _currentColor = m_lives[i].color;
 
-            if (i < PlayerSettings.Instance.playerHP)
+            if (i < GameInfoSingleton.Instance.playerSettings.playerHP)
             {
                 _currentColor.a = 1f;
             }
@@ -84,13 +84,13 @@ public class UImanager : MonoBehaviour
     private void Damage()
     {
         Color _flashColor = m_damageFlash.color;
-        if(PlayerSettings.Instance.playerHP < m_previousHP)
+        if(GameInfoSingleton.Instance.playerSettings.playerHP < m_previousHP)
         {
             _flashColor.a = m_damageAlpha / 250;
             m_damageAlpha -= Time.deltaTime * 300;
             if (m_damageAlpha <= 0)
             {
-                m_previousHP = PlayerSettings.Instance.playerHP;
+                m_previousHP = GameInfoSingleton.Instance.playerSettings.playerHP;
                 m_damageAlpha = 100;  
             }
 
@@ -104,9 +104,9 @@ public class UImanager : MonoBehaviour
             m_damageFlash.color = _normalColor;
         }
        
-        if(PlayerSettings.Instance.playerHP > m_previousHP)
+        if(GameInfoSingleton.Instance.playerSettings.playerHP > m_previousHP)
         {
-            m_previousHP = PlayerSettings.Instance.playerHP;
+            m_previousHP = GameInfoSingleton.Instance.playerSettings.playerHP;
         }
     }
 }

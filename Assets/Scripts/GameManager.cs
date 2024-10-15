@@ -43,24 +43,24 @@ public class GameManager : MonoBehaviour
     {
         if (m_waveCount > 0)
         {
-            PlayerSettings.Instance.wave = m_waveCount;
+            GameInfoSingleton.Instance.playerSettings.wave = m_waveCount;
         }
 
-        if (PlayerSettings.Instance.playerHP <= 0)
+        if (GameInfoSingleton.Instance.playerSettings.playerHP <= 0)
         {
-            if (m_canRepair && !PlayerSettings.Instance.isRepairing)
+            if (m_canRepair && !GameInfoSingleton.Instance.playerSettings.isRepairing)
             {
                 m_repairObject.SetActive(true);
-                PlayerSettings.Instance.isRepairing = true;
+                GameInfoSingleton.Instance.playerSettings.isRepairing = true;
                 m_canRepair = false;
             }
-            else if (!PlayerSettings.Instance.isRepairing)
+            else if (!GameInfoSingleton.Instance.playerSettings.isRepairing)
             {
                 SceneManager.LoadScene("GameOver");
             }
         }
 
-        if (!PlayerSettings.Instance.isRepairing)
+        if (!GameInfoSingleton.Instance.playerSettings.isRepairing)
         {
             m_repairObject.SetActive(false);
         }
@@ -70,19 +70,19 @@ public class GameManager : MonoBehaviour
             CheckWaveStatus();
         }
 
-        if (PlayerSettings.Instance.shipLevel < m_playerSprites.Count)
+        if (GameInfoSingleton.Instance.playerSettings.shipLevel < m_playerSprites.Count)
         {
-            m_playerSpriteRenderer.sprite = m_playerSprites[PlayerSettings.Instance.shipLevel];
+            m_playerSpriteRenderer.sprite = m_playerSprites[GameInfoSingleton.Instance.playerSettings.shipLevel];
         }
 
-        if (PlayerSettings.Instance.shipLevel >= 2)
+        if (GameInfoSingleton.Instance.playerSettings.shipLevel >= 2)
         {
-            PlayerSettings.Instance.shipLevel = 2;
+            GameInfoSingleton.Instance.playerSettings.shipLevel = 2;
         }
 
-        if (PlayerSettings.Instance.playerHP > 3)
+        if (GameInfoSingleton.Instance.playerSettings.playerHP > 3)
         {
-            PlayerSettings.Instance.playerHP = 3;
+            GameInfoSingleton.Instance.playerSettings.playerHP = 3;
         }
     }
 

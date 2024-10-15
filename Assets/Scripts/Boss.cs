@@ -25,7 +25,7 @@ public class Boss : EnemyBase
 
         base.Start();
 
-        m_hitPoints.m_HP = (4 * PlayerSettings.Instance.wave) + 12;
+        m_hitPoints.m_HP = (4 * GameInfoSingleton.Instance.playerSettings.wave) + 12;
 
         m_moveDirection = new Vector2(Random.value > 0.5f ? 1 : -1, 0);
         m_Speed += (m_floatWave / 4);       

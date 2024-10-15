@@ -17,11 +17,11 @@ public class Buttons : MonoBehaviour
     {
         SceneManager.LoadScene("Main");
         Time.timeScale = 1;
-        PlayerSettings.Instance.score = 0;
-        PlayerSettings.Instance.wave = 1;
-        PlayerSettings.Instance.playerHP = 3;
-        PlayerSettings.Instance.shipLevel = 0;
-        PlayerSettings.Instance.isRepairing = false;
+        GameInfoSingleton.Instance.playerSettings.score = 0;
+        GameInfoSingleton.Instance.playerSettings.wave = 1;
+        GameInfoSingleton.Instance.playerSettings.playerHP = 3;
+        GameInfoSingleton.Instance.playerSettings.shipLevel = 0;
+        GameInfoSingleton.Instance.playerSettings.isRepairing = false;
     }
 
     public void MainMenu()

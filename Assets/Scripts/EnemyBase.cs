@@ -31,7 +31,7 @@ public class EnemyBase : MonoBehaviour
         m_rb = GetComponent<Rigidbody2D>();
         m_rb.drag = 20;
 
-        m_floatWave += PlayerSettings.Instance.wave;
+        m_floatWave += GameInfoSingleton.Instance.playerSettings.wave;
 
         if (m_enemyType == 1)
         {
@@ -56,8 +56,8 @@ public class EnemyBase : MonoBehaviour
             {
                 Instantiate(m_powerUp, transform.position, Quaternion.identity);
             }
-            PlayerSettings.Instance.score += m_Score * PlayerSettings.Instance.wave;
-            Instantiate(PlayerSettings.Instance.explotion, transform.position, Quaternion.identity);
+            GameInfoSingleton.Instance.playerSettings.score += m_Score * GameInfoSingleton.Instance.playerSettings.wave;
+            Instantiate(GameInfoSingleton.Instance.playerSettings.explotion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
 

@@ -8,8 +8,8 @@ public class DamagePlayer : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerSettings.Instance.playerHP -= m_DamagePoints;
-            Instantiate(PlayerSettings.Instance.explotion, transform.position, Quaternion.identity);
+            GameInfoSingleton.Instance.playerSettings.playerHP -= m_DamagePoints;
+            Instantiate(GameInfoSingleton.Instance.playerSettings.explotion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
         if (collision.gameObject.CompareTag(gameObject.tag))

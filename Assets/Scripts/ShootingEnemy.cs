@@ -14,7 +14,7 @@ public class ShootingEnemy : EnemyBase
     protected override void Start()
     {
         base.Start();
-        m_ShootTimer += m_ShootTimer / (PlayerSettings.Instance.wave + 1);
+        m_ShootTimer += m_ShootTimer / (GameInfoSingleton.Instance.playerSettings.wave + 1);
     }
 
     protected override void Update()

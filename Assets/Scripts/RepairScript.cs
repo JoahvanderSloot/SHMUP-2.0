@@ -22,9 +22,9 @@ public class RepairScript : MonoBehaviour
         m_playerMovement = _player.GetComponent<PlayerMovement>();
 
         int _maxSequence = 8;
-        if (PlayerSettings.Instance.wave <= _maxSequence)
+        if (GameInfoSingleton.Instance.playerSettings.wave <= _maxSequence)
         {
-            for (int i = 0; i < PlayerSettings.Instance.wave; i++)
+            for (int i = 0; i < GameInfoSingleton.Instance.playerSettings.wave; i++)
             {
                 m_randomSequence.Add(Random.Range(0, 4));
             }
@@ -41,7 +41,7 @@ public class RepairScript : MonoBehaviour
         {
             m_showSequence = StartCoroutine(ShowSequence());
             m_playerMovement.Pause();
-            PlayerSettings.Instance.isRepairing = true;
+            GameInfoSingleton.Instance.playerSettings.isRepairing = true;
             Time.timeScale = 0;
         }
     }
@@ -88,9 +88,9 @@ public class RepairScript : MonoBehaviour
 
             if (m_inputSequence.Count == m_randomSequence.Count)
             {
-                PlayerSettings.Instance.playerHP++;
+                GameInfoSingleton.Instance.playerSettings.playerHP++;
                 m_playerMovement.Pause();
-                PlayerSettings.Instance.isRepairing = false;
+                GameInfoSingleton.Instance.playerSettings.isRepairing = false;
                 gameObject.SetActive(false);
                 m_inputSequence.Clear();
 
@@ -106,7 +106,7 @@ public class RepairScript : MonoBehaviour
                         if (_target.CompareTag("Enemy"))
                         {
                             EnemyBase _enemyBase = _target.GetComponent<EnemyBase>();
-                            Instantiate(PlayerSettings.Instance.explotion, _target.transform.position, Quaternion.identity);
+                            Instantiate(GameInfoSingleton.Instance.playerSettings.explotion, _target.transform.position, Quaternion.identity);
                         }
                         Destroy(_target);
                     }

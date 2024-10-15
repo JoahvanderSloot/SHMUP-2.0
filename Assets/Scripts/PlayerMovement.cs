@@ -83,13 +83,13 @@ public class PlayerMovement : MonoBehaviour
                     if (collider.CompareTag("Enemy"))
                     {
                         Destroy(collider.gameObject);
-                        Instantiate(PlayerSettings.Instance.explotion, collider.gameObject.transform.position, Quaternion.identity);
+                        Instantiate(GameInfoSingleton.Instance.playerSettings.explotion, collider.gameObject.transform.position, Quaternion.identity);
                     }
                 }
             }
         }
 
-        PlayerSettings.Instance.shieldIsActive = m_shield;
+        GameInfoSingleton.Instance.playerSettings.shieldIsActive = m_shield;
 
         if (m_healingPickedUp)
         {
@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
             _shotBullet.GetComponent<SpriteRenderer>().color = Color.white;
             BulletScript _bulletScript = _shotBullet.GetComponent<BulletScript>();
             _bulletScript.m_canDamageEnemy = true;
-            _bulletScript.m_damage = PlayerSettings.Instance.shipLevel + 1;
+            _bulletScript.m_damage = GameInfoSingleton.Instance.playerSettings.shipLevel + 1;
             _bulletScript.m_ShootDirection = Vector2.up;
             _bulletScript.m_shootForce = m_playerShootForce;
             yield return new WaitForSeconds(m_ShootTimer / 2);
@@ -175,8 +175,8 @@ public class PlayerMovement : MonoBehaviour
                     if (_target.CompareTag("Enemy"))
                     {
                         EnemyBase _enemyBase = _target.GetComponent<EnemyBase>();
-                        PlayerSettings.Instance.score += _enemyBase.m_Score;
-                        Instantiate(PlayerSettings.Instance.explotion, _target.transform.position, Quaternion.identity);
+                        GameInfoSingleton.Instance.playerSettings.score += _enemyBase.m_Score;
+                        Instantiate(GameInfoSingleton.Instance.playerSettings.explotion, _target.transform.position, Quaternion.identity);
                     }
                     Destroy(_target);
                 }
@@ -205,12 +205,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_powerUpName == "HP")
         {
-            PlayerSettings.Instance.playerHP++;
+            GameInfoSingleton.Instance.playerSettings.playerHP++;
             FlashGreen();
         }
         if (_powerUpName == "Upgrade")
         {
-            PlayerSettings.Instance.shipLevel++;
+            GameInfoSingleton.Instance.playerSettings.shipLevel++;
         }
         if (_powerUpName == "Instakill")
         {
