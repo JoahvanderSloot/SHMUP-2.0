@@ -71,6 +71,7 @@ public class EnemyBase : MonoBehaviour
 
             Vector3 _relativePos = m_randomPosition - transform.position;
             Quaternion _lookAt = Quaternion.LookRotation(-transform.forward, _relativePos);
+
             transform.rotation = _lookAt;
 
             if (_distance <= m_range)

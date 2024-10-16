@@ -55,7 +55,7 @@ public class Boss : EnemyBase
                 m_fireRate = 0.9f;
                 break;
             case bossPhases.panic:
-                m_fireRate = 0.25f;
+                m_fireRate = 0.5f;
                 BossMovement();
                 PanickAttack();
                 break;

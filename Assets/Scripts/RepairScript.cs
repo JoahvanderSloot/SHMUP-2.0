@@ -21,7 +21,7 @@ public class RepairScript : MonoBehaviour
         GameObject _player = GameObject.FindWithTag("Player");
         m_playerMovement = _player.GetComponent<PlayerMovement>();
 
-        int _maxSequence = 8;
+        int _maxSequence = 6;
         if (GameInfoSingleton.Instance.playerSettings.wave <= _maxSequence)
         {
             for (int i = 0; i < GameInfoSingleton.Instance.playerSettings.wave; i++)

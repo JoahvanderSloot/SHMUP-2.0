@@ -4,6 +4,7 @@ public class MovingEnemy : EnemyBase
 {
     private bool m_isAtBotton = false;
     private Vector2 m_moveDirection;
+    private bool m_moveDown = true;
 
     protected override void Start()
     {
@@ -44,6 +45,7 @@ public class MovingEnemy : EnemyBase
             
             if(m_enemyType == 1 && transform.position.y >= -3)
             {
+                
                 m_rb.AddForce(Vector2.down * m_Speed * Time.deltaTime * 100, ForceMode2D.Force);
 
                 if (m_moveDirection == Vector2.right)
