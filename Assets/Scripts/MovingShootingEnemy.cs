@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class MovingShootingEnemy : ShootingEnemy
 {
-    private bool m_isAtBotton = false;
+    private bool m_isAtBottom = false;
     private Vector2 m_moveDirection;
+    private bool m_moveDown = true;
+    private float m_bottomTimer = 0;
+    private float m_waitTimeAtBottom = 4.0f;
 
     protected override void Start()
     {
@@ -47,7 +50,7 @@ public class MovingShootingEnemy : ShootingEnemy
 
             m_rb.AddForce(m_moveDirection.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
 
-            if (m_enemyType == 1 && transform.position.y >= -3)
+            if (m_enemyType == 1 && m_moveDown)
             {
                 m_rb.AddForce(Vector2.down * m_Speed * Time.deltaTime * 100, ForceMode2D.Force);
 
@@ -59,17 +62,41 @@ public class MovingShootingEnemy : ShootingEnemy
                 {
                     transform.rotation = Quaternion.Euler(0, 0, -250);
                 }
-                else
+
+                if (transform.position.y <= -3)
                 {
-                    transform.rotation = Quaternion.Euler(0, 0, 180);
+                    m_isAtBottom = true;
+                    m_moveDown = false;
+                    m_bottomTimer = 0;
                 }
             }
-            else
+
+            if (m_isAtBottom)
             {
-                m_isAtBotton = true;
+                m_bottomTimer += Time.deltaTime;
+
+                if (m_bottomTimer >= m_waitTimeAtBottom)
+                {
+                    m_rb.AddForce(Vector2.up * m_Speed * Time.deltaTime * 100, ForceMode2D.Force);
+
+                    if (m_moveDirection == Vector2.right)
+                    {
+                        transform.rotation = Quaternion.Euler(0, 0, 290);
+                    }
+                    else if (m_moveDirection == Vector2.left)
+                    {
+                        transform.rotation = Quaternion.Euler(0, 0, -290);
+                    }
+
+                    if (transform.position.y >= 4)
+                    {
+                        m_moveDown = true;
+                        m_isAtBottom = false;
+                    }
+                }
             }
 
-            if (m_enemyType == 0 || m_isAtBotton)
+            if (m_enemyType == 0 || m_isAtBottom && m_bottomTimer < m_waitTimeAtBottom)
             {
                 if (m_moveDirection == Vector2.right)
                 {
@@ -78,10 +105,6 @@ public class MovingShootingEnemy : ShootingEnemy
                 else if (m_moveDirection == Vector2.left)
                 {
                     transform.rotation = Quaternion.Euler(0, 0, 90);
-                }
-                else
-                {
-                    transform.rotation = Quaternion.Euler(0, 0, 180);
                 }
             }
         }
