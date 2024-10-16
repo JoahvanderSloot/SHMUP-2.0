@@ -15,9 +15,13 @@ public class RepairScript : MonoBehaviour
     Coroutine m_showSequence;
     bool m_showedSequence = false;
     PlayerMovement m_playerMovement;
+    float m_deathTimer;
+    bool m_isIncorrect;
 
     private void Start()
     {
+        m_deathTimer = 0;
+
         GameObject _player = GameObject.FindWithTag("Player");
         m_playerMovement = _player.GetComponent<PlayerMovement>();
 
@@ -53,7 +57,8 @@ public class RepairScript : MonoBehaviour
             for (int i = 0; i < m_buttons.Count; i++)
             {
                 Button _button = m_buttons[i].GetComponent<Button>();
-                _button.enabled = false;
+                _button.interactable = false;
+               
             }
             m_correctIncorrect.text = "memorize";
             m_correctIncorrect.color = Color.white;
@@ -63,7 +68,16 @@ public class RepairScript : MonoBehaviour
             for (int i = 0; i < m_buttons.Count; i++)
             {
                 Button _button = m_buttons[i].GetComponent<Button>();
-                _button.enabled = true;
+                _button.interactable = true;
+            }
+        }
+
+        if (m_isIncorrect)
+        {
+            m_deathTimer += 2 + Time.deltaTime;
+            if (m_deathTimer > 3)
+            {
+                SceneManager.LoadScene("GameOver");
             }
         }
     }
@@ -117,7 +131,7 @@ public class RepairScript : MonoBehaviour
         {
             m_correctIncorrect.text = "Incorrect";
             m_correctIncorrect.color = Color.red;
-            SceneManager.LoadScene("GameOver");
+            m_isIncorrect = true;
         }
     }
 

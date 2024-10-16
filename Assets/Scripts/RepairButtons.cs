@@ -1,8 +1,25 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RepairButtons : MonoBehaviour
 {
     [SerializeField] RepairScript m_repairScript;
+
+    public void PointerEnter()
+    {
+        if (GetComponent<Button>().interactable)
+        {
+            transform.localScale = new Vector2(1.05f, 1.05f);
+        }
+    }
+
+    public void PointerExit()
+    {
+        if (GetComponent<Button>().interactable)
+        {
+            transform.localScale = new Vector2(1f, 1f);
+        }
+    }
 
     public void ButtonUp()
     {

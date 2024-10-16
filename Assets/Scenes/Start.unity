@@ -636,37 +636,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537420575}
   m_CullTransparentMesh: 1
---- !u!1 &687182376
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 687182377}
-  m_Layer: 0
-  m_Name: GameInfo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &687182377
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687182376}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &823820110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,8 +1184,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter IGN...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ac393853980b97e478f01b1f044911ac, type: 2}
-  m_sharedMaterial: {fileID: -9169450042481154775, guid: ac393853980b97e478f01b1f044911ac, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f308df7904b31224f80a21640b78113b, type: 2}
+  m_sharedMaterial: {fileID: -1732890563302334767, guid: f308df7904b31224f80a21640b78113b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1349,8 +1318,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ac393853980b97e478f01b1f044911ac, type: 2}
-  m_sharedMaterial: {fileID: -9169450042481154775, guid: ac393853980b97e478f01b1f044911ac, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f308df7904b31224f80a21640b78113b, type: 2}
+  m_sharedMaterial: {fileID: -1732890563302334767, guid: f308df7904b31224f80a21640b78113b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1989,5 +1958,4 @@ SceneRoots:
   - {fileID: 2054048875}
   - {fileID: 1810888550}
   - {fileID: 1326464178}
-  - {fileID: 687182377}
   - {fileID: 2051390319}
