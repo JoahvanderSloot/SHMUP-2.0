@@ -66,12 +66,12 @@ public class Boss : EnemyBase
     {
         while (true)
         {
+            yield return new WaitForSeconds(m_fireRate);
             GameObject _instantedBullet = Instantiate(m_bullet, transform.position, transform.rotation);
             _instantedBullet.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
             BulletScript _enemyBullet = _instantedBullet.GetComponent<BulletScript>();
             _enemyBullet.m_shootForce = _shootForce;
             _enemyBullet.m_ShootDirection = transform.up;
-            yield return new WaitForSeconds(m_fireRate);
         }
     }
 
