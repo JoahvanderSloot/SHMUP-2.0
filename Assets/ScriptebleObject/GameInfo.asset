@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHP: 0
   IGN: Joah
-  score: 3370
-  wave: 8
+  score: 8510
+  wave: 16
   shipLevel: 0
   shieldIsActive: 0
   explotion: {fileID: 7023906146836175587, guid: 1a81c8e0e816ae042ab0fbafef1d1a17, type: 3}
-  isRepairing: 0
-  missileCount: 35
+  isRepairing: 1
+  missileCount: 928

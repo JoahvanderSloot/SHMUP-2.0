@@ -12,12 +12,13 @@ public class HomingMissile : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, 10);
-        m_moveToPos = m_crossHair.transform.position;
+        Destroy(gameObject, 8);
     }
 
     private void Update()
     {
+        m_moveToPos = m_crossHair.transform.position;
+
         float _distance = Vector2.Distance(transform.position, m_moveToPos);
 
         float _lerpFactor = Mathf.Clamp01(Time.deltaTime * m_speed / _distance);

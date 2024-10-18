@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject m_missile;
     [SerializeField] GameObject m_crossHairPref;
     Vector3 m_crossHairPos;
+    GameObject m_crossHair;
 
     private void Start()
     {
@@ -94,12 +97,16 @@ public class GameManager : MonoBehaviour
         if(GameInfoSingleton.Instance.playerSettings.missileCount > 0)
         {
             MissileAttack();
+
             GameObject _randomEnemy = GameObject.FindWithTag("Enemy");
             if(_randomEnemy != null)
             {
                 m_crossHairPos = new Vector3(_randomEnemy.transform.position.x, _randomEnemy.transform.position.y, -1);
             }
-            //if make crosshairpos in the missilecrips crosshairpos
+            if(m_crossHair != null)
+            {
+                m_crossHair.transform.position = m_crossHairPos;
+            }
         }
     }
 
@@ -160,14 +167,18 @@ public class GameManager : MonoBehaviour
 
     private void MissileAttack()
     {
-        if (m_missileAttack)
+        HomingMissile[] _missiles = FindObjectsOfType(typeof(HomingMissile)) as HomingMissile[];
+
+        if (m_missileAttack && _missiles.Length == 0)
         {
             GameObject _missileObj = Instantiate(m_missile, m_player.transform.position, Quaternion.identity);
             GameInfoSingleton.Instance.playerSettings.missileCount--;
 
             HomingMissile _missileScript = _missileObj.GetComponent<HomingMissile>();
 
-            _missileScript.m_crossHair = Instantiate(m_crossHairPref, m_crossHairPos, Quaternion.identity);
+            m_crossHair = Instantiate(m_crossHairPref, m_crossHairPos, Quaternion.identity);
+
+            _missileScript.m_crossHair = m_crossHair;
 
             m_missileAttack = false;
         }
