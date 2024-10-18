@@ -13,6 +13,7 @@ public class HomingMissile : MonoBehaviour
     private void Start()
     {
         Destroy(gameObject, 10);
+        m_moveToPos = m_crossHair.transform.position;
     }
 
     private void Update()
@@ -61,10 +62,20 @@ public class HomingMissile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player"))
+        if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Bullet"))
         {
             Destroy(m_crossHair);
-            Destroy(collision.gameObject);
+            Boss _boss = collision.gameObject.GetComponent<Boss>();
+            if (_boss == null)
+            {
+                Destroy(collision.gameObject);
+            }
+            else
+            {
+                _boss.m_isHit = true;
+                HitPoints _hitPoints = collision.gameObject.GetComponent<HitPoints>();
+                _hitPoints.m_HP -= 3;
+            }
             Explode();
             Destroy(gameObject);
         }

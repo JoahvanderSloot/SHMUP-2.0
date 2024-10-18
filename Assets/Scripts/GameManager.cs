@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     public bool m_missileAttack = false;
     [SerializeField] GameObject m_missile;
     [SerializeField] GameObject m_crossHairPref;
+    Vector3 m_crossHairPos;
 
     private void Start()
     {
@@ -93,6 +94,12 @@ public class GameManager : MonoBehaviour
         if(GameInfoSingleton.Instance.playerSettings.missileCount > 0)
         {
             MissileAttack();
+            GameObject _randomEnemy = GameObject.FindWithTag("Enemy");
+            if(_randomEnemy != null)
+            {
+                m_crossHairPos = new Vector3(_randomEnemy.transform.position.x, _randomEnemy.transform.position.y, -1);
+            }
+            //if make crosshairpos in the missilecrips crosshairpos
         }
     }
 
@@ -153,9 +160,6 @@ public class GameManager : MonoBehaviour
 
     private void MissileAttack()
     {
-        Vector3 _mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-        _mouseWorldPos.z = 0;
-
         if (m_missileAttack)
         {
             GameObject _missileObj = Instantiate(m_missile, m_player.transform.position, Quaternion.identity);
@@ -163,8 +167,7 @@ public class GameManager : MonoBehaviour
 
             HomingMissile _missileScript = _missileObj.GetComponent<HomingMissile>();
 
-            _missileScript.m_moveToPos = _mouseWorldPos;
-            _missileScript.m_crossHair = Instantiate(m_crossHairPref, _mouseWorldPos, Quaternion.identity);
+            _missileScript.m_crossHair = Instantiate(m_crossHairPref, m_crossHairPos, Quaternion.identity);
 
             m_missileAttack = false;
         }
