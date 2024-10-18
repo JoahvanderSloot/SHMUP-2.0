@@ -11,5 +11,6 @@ public class PlayerSettings : ScriptableObject
     public bool shieldIsActive;
     public GameObject explotion;
     public bool isRepairing;
+    public int missileCount;
 }
     

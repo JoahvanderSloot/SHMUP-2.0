@@ -22,6 +22,7 @@ public class Buttons : MonoBehaviour
         GameInfoSingleton.Instance.playerSettings.playerHP = 3;
         GameInfoSingleton.Instance.playerSettings.shipLevel = 0;
         GameInfoSingleton.Instance.playerSettings.isRepairing = false;
+        GameInfoSingleton.Instance.playerSettings.missileCount = 3;
     }
 
     public void MainMenu()

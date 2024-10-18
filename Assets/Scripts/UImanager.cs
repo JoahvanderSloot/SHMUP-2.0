@@ -19,6 +19,7 @@ public class UImanager : MonoBehaviour
     int m_previousHP;
     [Header("Special Attacks")]
     [SerializeField] GameObject m_zAttackUI;
+    [SerializeField] TextMeshProUGUI m_missileCount;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class UImanager : MonoBehaviour
     {
         m_score.text = GameInfoSingleton.Instance.playerSettings.IGN + ": " + GameInfoSingleton.Instance.playerSettings.score.ToString();
         m_wave.text = "Wave: " + GameInfoSingleton.Instance.playerSettings.wave.ToString();
+        m_missileCount.text = GameInfoSingleton.Instance.playerSettings.missileCount.ToString();
 
         if (m_playerMovement.m_IsPaused)
         {

@@ -12,7 +12,7 @@ public class Pickup : MonoBehaviour
     {
         Destroy(gameObject, 4);
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
-        m_randomName = Random.Range(0, 4);
+        m_randomName = Random.Range(0, 5);
         m_SpriteRenderer.sprite = m_sprites[m_randomName];
     }
 
@@ -44,6 +44,10 @@ public class Pickup : MonoBehaviour
             case 3:
                 m_name = "Shield";
                 transform.localScale = new Vector3(5.5f, 5.5f, 5.5f);
+                break;
+            case 4:
+                m_name = "Missile";
+                transform.localScale = new Vector3(6f, 6f, 6f);
                 break;
         }
     }

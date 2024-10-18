@@ -26,9 +26,14 @@ public class GameManager : MonoBehaviour
     bool m_isSpawningWave = false;
     Coroutine m_enemySpawner;
 
-    [Header("Shit Repair")]
+    [Header("Ship Repair")]
     public bool m_canRepair = true;
     [SerializeField] GameObject m_repairObject;
+
+    [Header("MissileAttack")]
+    public bool m_missileAttack = false;
+    [SerializeField] GameObject m_missile;
+    [SerializeField] GameObject m_crossHairPref;
 
     private void Start()
     {
@@ -83,6 +88,11 @@ public class GameManager : MonoBehaviour
         if (GameInfoSingleton.Instance.playerSettings.playerHP > 3)
         {
             GameInfoSingleton.Instance.playerSettings.playerHP = 3;
+        }
+
+        if(GameInfoSingleton.Instance.playerSettings.missileCount > 0)
+        {
+            MissileAttack();
         }
     }
 
@@ -139,5 +149,28 @@ public class GameManager : MonoBehaviour
         }
 
         m_isSpawningWave = false;
+    }
+
+    private void MissileAttack()
+    {
+        Vector3 _mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        _mouseWorldPos.z = 0;
+
+        if (m_missileAttack)
+        {
+            GameObject _missileObj = Instantiate(m_missile, m_player.transform.position, Quaternion.identity);
+            GameInfoSingleton.Instance.playerSettings.missileCount--;
+
+            HomingMissile _missileScript = _missileObj.GetComponent<HomingMissile>();
+
+            _missileScript.m_moveToPos = _mouseWorldPos;
+            _missileScript.m_crossHair = Instantiate(m_crossHairPref, _mouseWorldPos, Quaternion.identity);
+
+            m_missileAttack = false;
+        }
+        else
+        {
+            Cursor.visible = true;
+        }
     }
 }

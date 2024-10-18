@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b82f6e781a2d34793ddeecb095bcab, type: 3}
   m_Name: GameInfo
   m_EditorClassIdentifier: 
-  playerHP: 3
+  playerHP: 1
   IGN: Joah
   score: 0
   wave: 1
   shipLevel: 0
   shieldIsActive: 0
-  explotion: {fileID: 1013176030632602947, guid: 42a9f4ef53b8dc946808369f0e1b10b2, type: 3}
+  explotion: {fileID: 7023906146836175587, guid: 1a81c8e0e816ae042ab0fbafef1d1a17, type: 3}
   isRepairing: 0

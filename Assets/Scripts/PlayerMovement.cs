@@ -186,6 +186,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void ActivateMissile()
+    {
+        GameManager _gameManager = FindAnyObjectByType<GameManager>();
+        if (_gameManager != null)
+        {
+            _gameManager.m_missileAttack = !_gameManager.m_missileAttack;
+        }
+        
+    }
+
     void ScreenWrap()
     {
         float _rightSideOfScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x + 0.15f;
@@ -226,6 +236,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 m_shieldTimer = 0;
             }
+        }
+        if(_powerUpName == "Missile")
+        {
+            GameInfoSingleton.Instance.playerSettings.missileCount += 3;
         }
     }
 
