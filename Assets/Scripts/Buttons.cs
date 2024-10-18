@@ -36,6 +36,11 @@ public class Buttons : MonoBehaviour
         m_playerMovement.m_IsPaused = false;
     }
 
+    public void SkipRepair()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
+
     public void QuitGame()
     {
         #if (UNITY_EDITOR || DEVELOPMENT_BUILD)

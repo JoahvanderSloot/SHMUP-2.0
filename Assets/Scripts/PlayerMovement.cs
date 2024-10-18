@@ -154,7 +154,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void Pause()
     {
-        m_IsPaused = !m_IsPaused;
+        if (!GameInfoSingleton.Instance.playerSettings.isRepairing)
+        {
+            m_IsPaused = !m_IsPaused;
+        }
+        else
+        {
+            m_IsPaused = true;
+        }
     }
 
     public void InstaKill()

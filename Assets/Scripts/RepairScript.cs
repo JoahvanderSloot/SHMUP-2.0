@@ -103,8 +103,8 @@ public class RepairScript : MonoBehaviour
             if (m_inputSequence.Count == m_randomSequence.Count)
             {
                 GameInfoSingleton.Instance.playerSettings.playerHP++;
-                m_playerMovement.Pause();
                 GameInfoSingleton.Instance.playerSettings.isRepairing = false;
+                m_playerMovement.Pause();
                 gameObject.SetActive(false);
                 m_inputSequence.Clear();
 
