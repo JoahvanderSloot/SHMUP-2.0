@@ -12,6 +12,7 @@ public class UImanager : MonoBehaviour
     [SerializeField] TextMeshProUGUI m_wave;
     [Header("Menu")]
     [SerializeField] GameObject m_escMenu;
+    [SerializeField] List<GameObject> m_allUIobjects;
     [Header("Damage")]
     [SerializeField] List<Image> m_lives;
     [SerializeField] Image m_damageFlash;
@@ -20,6 +21,7 @@ public class UImanager : MonoBehaviour
     [Header("Special Attacks")]
     [SerializeField] GameObject m_zAttackUI;
     [SerializeField] TextMeshProUGUI m_missileCount;
+    [SerializeField] Slider m_wormHoleCooldown;
 
     private void Start()
     {
@@ -59,6 +61,24 @@ public class UImanager : MonoBehaviour
         {
             m_zAttackUI.SetActive(false);
         }
+
+        if (GameInfoSingleton.Instance.playerSettings.isRepairing)
+        {
+            foreach (GameObject _obj in m_allUIobjects)
+            {
+                _obj.SetActive(false);
+                m_zAttackUI.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (GameObject _obj in m_allUIobjects)
+            {
+                _obj.SetActive(true);
+            }
+        }
+
+        m_wormHoleCooldown.value = 10 - m_playerMovement.m_wormHoleTimer;
 
         UpdateLives();
         Damage();

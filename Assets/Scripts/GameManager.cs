@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -97,13 +95,16 @@ public class GameManager : MonoBehaviour
         if(GameInfoSingleton.Instance.playerSettings.missileCount > 0)
         {
             MissileAttack();
+        }
 
+        if (FindObjectOfType<HomingMissile>() != null)
+        {
             GameObject _randomEnemy = GameObject.FindWithTag("Enemy");
-            if(_randomEnemy != null)
+            if (_randomEnemy != null)
             {
                 m_crossHairPos = new Vector3(_randomEnemy.transform.position.x, _randomEnemy.transform.position.y, -1);
             }
-            if(m_crossHair != null)
+            if (m_crossHair != null)
             {
                 m_crossHair.transform.position = m_crossHairPos;
             }

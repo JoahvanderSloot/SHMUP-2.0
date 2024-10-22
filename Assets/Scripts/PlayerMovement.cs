@@ -7,14 +7,14 @@ using static UnityEngine.InputSystem.InputAction;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] InputActionReference m_MoveInput;
-    [SerializeField] float m_Speed;
-    [SerializeField] float m_Drag;
+    [SerializeField] InputActionReference m_moveInput;
+    [SerializeField] float m_speed;
+    [SerializeField] float m_drag;
     Rigidbody2D m_rb;
 
     [Header("Shooting")]
-    [SerializeField] float m_ShootTimer;
-    [SerializeField] GameObject m_Bullet;
+    [SerializeField] float m_shootTimer;
+    [SerializeField] GameObject m_bullet;
     [SerializeField] float m_playerShootForce;
     Coroutine m_newCoroutine;
     public bool m_zAttack = false;
@@ -34,10 +34,27 @@ public class PlayerMovement : MonoBehaviour
     private float m_flashGreenTimer = 0;
     private SpriteRenderer m_spriteRenderer;
 
+    [Header("WormHole")]
+    [SerializeField] GameObject m_wormHolePref;
+    GameObject m_wormHoleObj;
+    public float m_wormHoleTimer;
+    [SerializeField] GameObject m_particles;
+    [SerializeField] InputActionReference m_cursorInput;
+
+    public enum wormHoleState
+    {
+        notInArsenal,
+        inArsenal,
+        inScene
+    }
+
+    wormHoleState m_currentWormHoleState;
+
     private void Start()
     {
         m_rb = GetComponent<Rigidbody2D>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
+        m_currentWormHoleState = wormHoleState.inArsenal;
     }
 
     private void Update()
@@ -46,9 +63,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Move();
             ScreenWrap();
+            WormHoleLogic();
         }
 
-        m_rb.drag = m_Drag;
+        //MoveCursorWithGamepad();
+
+        m_rb.drag = m_drag;
 
         if (m_IsPaused)
         {
@@ -107,9 +127,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move()
     {
-        Vector2 _data = m_MoveInput.action.ReadValue<Vector2>();
+        Vector2 _data = m_moveInput.action.ReadValue<Vector2>();
 
-        m_rb.AddForce(_data.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
+        m_rb.AddForce(_data.normalized * m_speed * Time.deltaTime * 1000, ForceMode2D.Force);
 
         if (_data == Vector2.right && !m_IsPaused)
         {
@@ -141,14 +161,14 @@ public class PlayerMovement : MonoBehaviour
     {
         while (true)
         {
-            GameObject _shotBullet = Instantiate(m_Bullet, transform.position, Quaternion.identity);
+            GameObject _shotBullet = Instantiate(m_bullet, transform.position, Quaternion.identity);
             _shotBullet.GetComponent<SpriteRenderer>().color = Color.white;
             BulletScript _bulletScript = _shotBullet.GetComponent<BulletScript>();
             _bulletScript.m_canDamageEnemy = true;
             _bulletScript.m_damage = GameInfoSingleton.Instance.playerSettings.shipLevel + 1;
             _bulletScript.m_ShootDirection = Vector2.up;
             _bulletScript.m_shootForce = m_playerShootForce;
-            yield return new WaitForSeconds(m_ShootTimer / 2);
+            yield return new WaitForSeconds(m_shootTimer / 2);
         }
     }
 
@@ -166,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void InstaKill()
     {
-        if (!m_zAttack)
+        if (!m_zAttack && !m_IsPaused)
         {
             List<GameObject> _targets = new List<GameObject>();
 
@@ -196,14 +216,89 @@ public class PlayerMovement : MonoBehaviour
     public void ActivateMissile()
     {
         GameManager _gameManager = FindAnyObjectByType<GameManager>();
-        if (_gameManager != null)
+        if (_gameManager != null && !m_IsPaused)
         {
             _gameManager.m_missileAttack = !_gameManager.m_missileAttack;
         }
         
     }
 
-    void ScreenWrap()
+    public void WormHole(CallbackContext _context)
+    {
+        Vector2 _mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (!m_IsPaused && _context.performed)
+        {
+            if (m_currentWormHoleState == wormHoleState.inArsenal)
+            {
+                m_wormHoleObj = Instantiate(m_wormHolePref, _mouseWorldPos, Quaternion.identity);
+            }
+            else if(m_currentWormHoleState == wormHoleState.inScene)
+            {
+                if (m_wormHoleObj != null)
+                {
+                    transform.position = m_wormHoleObj.transform.position;
+                    m_currentWormHoleState = wormHoleState.notInArsenal;
+                    Destroy(m_wormHoleObj);
+                }
+            }
+        }
+    }
+
+    private void WormHoleLogic()
+    {
+        Debug.Log(m_currentWormHoleState);
+
+        if (m_wormHoleObj != null && m_currentWormHoleState != wormHoleState.notInArsenal)
+        {
+            Vector2 _mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            m_wormHoleObj.transform.position = _mouseWorldPos;
+            m_currentWormHoleState = wormHoleState.inScene;
+        }
+
+        if(m_currentWormHoleState == wormHoleState.notInArsenal)
+        {
+            m_wormHoleTimer -= Time.deltaTime * 5;
+            if(m_wormHoleTimer < 0)
+            {
+                m_wormHoleTimer = 0;
+                m_currentWormHoleState = wormHoleState.inArsenal;
+            }
+        }
+
+        if (transform.position.y != -3)
+        {
+            Vector3 _lerpPos = new Vector3(transform.position.x, -3, transform.position.z);
+            float _distance = Vector2.Distance(transform.position, _lerpPos);
+            float _lerpFactor = Mathf.Clamp01(Time.deltaTime * m_speed / _distance);
+
+            transform.position = Vector2.Lerp(transform.position, _lerpPos, _lerpFactor);
+
+            m_particles.SetActive(false);
+        }
+        else
+        {
+            m_particles.SetActive(true);
+        }
+    }
+
+    public void MoveCursorWithGamepad()
+    {
+        Vector2 gamepadInput = m_cursorInput.action.ReadValue<Vector2>();
+
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        float scaleFactor = 0.1f;
+        Vector3 newCursorPosition = new Vector3(
+            mousePosition.x + gamepadInput.x * scaleFactor,
+            mousePosition.y + gamepadInput.y * scaleFactor,
+            mousePosition.z
+        );
+
+        Mouse.current.WarpCursorPosition(Camera.main.WorldToScreenPoint(newCursorPosition));
+    }
+
+    private void ScreenWrap()
     {
         float _rightSideOfScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x + 0.15f;
         float _leftSideOfScreen = -_rightSideOfScreen - 0.15f;
@@ -263,14 +358,17 @@ public class PlayerMovement : MonoBehaviour
     {
         SpriteRenderer _shieldSR = m_shieldObject.GetComponent<SpriteRenderer>();
 
+        Color _shieldColor = _shieldSR.color;
+
+        _shieldColor.a = 25f / 255f;
+        _shieldSR.color = _shieldColor;
+
         while (true)
         {
             if (m_shieldTimer >= m_shieldDuration - m_shieldDuration / 7)
             {
                 while (m_shieldTimer >= m_shieldDuration - m_shieldDuration / 7)
                 {
-                    Color _shieldColor = _shieldSR.color;
-
                     _shieldColor.a = 5f / 255f;
                     _shieldSR.color = _shieldColor;
                     yield return new WaitForSeconds(0.1f);

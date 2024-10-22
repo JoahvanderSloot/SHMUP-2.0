@@ -4932,11 +4932,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6550856d5eaa3a4096a254464fdb14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MoveInput: {fileID: -3915854686223341108, guid: fd667d2feef61e642add63b129af0a6a, type: 3}
-  m_Speed: 10
-  m_Drag: 20
-  m_ShootTimer: 0.5
-  m_Bullet: {fileID: 3055747310050211431, guid: 10fd79386b232e146852c88339b4dd87, type: 3}
+  m_moveInput: {fileID: -3915854686223341108, guid: fd667d2feef61e642add63b129af0a6a, type: 3}
+  m_speed: 10
+  m_drag: 20
+  m_shootTimer: 0.5
+  m_bullet: {fileID: 3055747310050211431, guid: 10fd79386b232e146852c88339b4dd87, type: 3}
   m_playerShootForce: 700
   m_zAttack: 0
   m_attackParticles: {fileID: 3842012930266996465, guid: e8e29b73d711b2145ade9c1599ac5ce4, type: 3}
@@ -4945,7 +4945,10 @@ MonoBehaviour:
   m_shieldRadius: 1
   m_shieldObject: {fileID: 8894008228868073655}
   m_IsPaused: 0
-  m_isHit: 0
+  m_healingPickedUp: 0
+  m_wormHolePref: {fileID: 696784273521610798, guid: 5deaa93a95d57cf46a34fa0537e1c04c, type: 3}
+  m_wormHoleTimer: 0
+  m_particles: {fileID: 2157619825190894489}
 --- !u!114 &9169900392827331703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5000,7 +5003,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_ActionId: b2063f63-32b2-4457-87ca-178a3db752e2
     m_ActionName: Player/Move[/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
@@ -5035,6 +5038,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ae24cf0c-ed42-4533-92d4-7652a128e6d1
     m_ActionName: Player/InstaKill[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5714950153085671455}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: ActivateMissile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c0dbf27b-ec4f-41f0-91ea-f3f5ff822591
+    m_ActionName: Player/MissileActivate[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5714950153085671455}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: WormHole
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 22e1afe5-3838-47fa-a3c5-f1a16f17b3e8
+    m_ActionName: Player/WormHole[/Keyboard/c]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -5055,7 +5090,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -5066,7 +5101,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 2
+  m_Constraints: 0
 --- !u!61 &6913880315321500354
 BoxCollider2D:
   m_ObjectHideFlags: 0
