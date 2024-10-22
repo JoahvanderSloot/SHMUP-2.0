@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static PlayerMovement;
 
 public class UImanager : MonoBehaviour
 {
@@ -78,7 +78,15 @@ public class UImanager : MonoBehaviour
             }
         }
 
-        m_wormHoleCooldown.value = 10 - m_playerMovement.m_wormHoleTimer;
+        if (m_playerMovement.m_currentWormHoleState == wormHoleState.notInArsenal)
+        {
+            m_wormHoleCooldown.value = 10 - m_playerMovement.m_wormHoleTimer;
+        }
+        else
+        {
+            m_wormHoleCooldown.value = 10;
+        }
+       
 
         UpdateLives();
         Damage();

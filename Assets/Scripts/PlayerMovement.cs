@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         inScene
     }
 
-    wormHoleState m_currentWormHoleState;
+    public wormHoleState m_currentWormHoleState;
 
     private void Start()
     {
@@ -94,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
                 m_shield = false;
                 m_shieldTimer = 0;
                 StopCoroutine(m_shieldCoroutine);
+                m_shieldCoroutine = null;
             }
             else
             {
@@ -232,14 +233,16 @@ public class PlayerMovement : MonoBehaviour
             if (m_currentWormHoleState == wormHoleState.inArsenal)
             {
                 m_wormHoleObj = Instantiate(m_wormHolePref, _mouseWorldPos, Quaternion.identity);
+                m_currentWormHoleState = wormHoleState.inScene;
             }
-            else if(m_currentWormHoleState == wormHoleState.inScene)
+            else if (m_currentWormHoleState == wormHoleState.inScene)
             {
                 if (m_wormHoleObj != null)
                 {
                     transform.position = m_wormHoleObj.transform.position;
-                    m_currentWormHoleState = wormHoleState.notInArsenal;
                     Destroy(m_wormHoleObj);
+                    m_currentWormHoleState = wormHoleState.notInArsenal;
+                    m_wormHoleTimer = 10f;
                 }
             }
         }
@@ -247,19 +250,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void WormHoleLogic()
     {
-        Debug.Log(m_currentWormHoleState);
-
-        if (m_wormHoleObj != null && m_currentWormHoleState != wormHoleState.notInArsenal)
+        if (m_currentWormHoleState == wormHoleState.inScene)
         {
             Vector2 _mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             m_wormHoleObj.transform.position = _mouseWorldPos;
-            m_currentWormHoleState = wormHoleState.inScene;
         }
 
-        if(m_currentWormHoleState == wormHoleState.notInArsenal)
+        if (m_currentWormHoleState == wormHoleState.notInArsenal)
         {
-            m_wormHoleTimer -= Time.deltaTime * 5;
-            if(m_wormHoleTimer < 0)
+            m_wormHoleTimer -= Time.deltaTime * 2.5f;
+            if (m_wormHoleTimer <= 0)
             {
                 m_wormHoleTimer = 0;
                 m_currentWormHoleState = wormHoleState.inArsenal;
@@ -317,8 +317,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_powerUpName == "HP")
         {
-            GameInfoSingleton.Instance.playerSettings.playerHP++;
-            FlashGreen();
+            if(GameInfoSingleton.Instance.playerSettings.playerHP < 3)
+            {
+                GameInfoSingleton.Instance.playerSettings.playerHP++;
+                FlashGreen();
+            }
+            else
+            {
+                 GameInfoSingleton.Instance.playerSettings.score += 25;
+            }
         }
         if (_powerUpName == "Upgrade")
         {
@@ -326,7 +333,14 @@ public class PlayerMovement : MonoBehaviour
         }
         if (_powerUpName == "Instakill")
         {
-            m_zAttack = false;
+            if (m_zAttack == true)
+            {
+                m_zAttack = false;
+            }
+            else
+            {
+                GameInfoSingleton.Instance.playerSettings.score += 25;
+            }
         }
         if (_powerUpName == "Shield")
         {

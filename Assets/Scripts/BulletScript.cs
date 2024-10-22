@@ -61,7 +61,7 @@ public class BulletScript : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player") && m_canDamage)
         {
-            if (!GameInfoSingleton.Instance.playerSettings.shieldIsActive)
+            if (!GameInfoSingleton.Instance.playerSettings.shieldIsActive && !m_canDamageEnemy)
             {
                     GameInfoSingleton.Instance.playerSettings.playerHP--;
             }
