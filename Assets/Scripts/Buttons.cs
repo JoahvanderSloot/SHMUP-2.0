@@ -41,6 +41,11 @@ public class Buttons : MonoBehaviour
         SceneManager.LoadScene("GameOver");
     }
 
+    public void Controls()
+    {
+        SceneManager.LoadScene("Controls");
+    }
+
     public void QuitGame()
     {
         #if (UNITY_EDITOR || DEVELOPMENT_BUILD)
