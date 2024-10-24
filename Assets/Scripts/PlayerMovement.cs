@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        // Runs the functions when you are not paused
         if (!m_IsPaused)
         {
             Move();
@@ -70,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
         m_rb.drag = m_drag;
 
+        // Set the timeScale to 0 when you are paused and back to 1 when you are not
         if (m_IsPaused)
         {
             Time.timeScale = 0;
@@ -83,11 +85,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (m_shield)
         {
+            // Start the ShieldFlicker coroutine
             if(m_shieldCoroutine == null)
             {
                 m_shieldCoroutine = StartCoroutine(ShieldFlicker());
             }
 
+            // Starts running the shieldtimer and then the timer reaches the shield duration it turns the shield off
             m_shieldTimer += Time.deltaTime;
             if (m_shieldTimer >= m_shieldDuration)
             {
@@ -98,13 +102,17 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                // Sets a OverlapCircle which kills any enemy that hits it
                 Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, m_shieldRadius);
                 foreach (Collider2D collider in colliders)
                 {
                     if (collider.CompareTag("Enemy"))
                     {
-                        Destroy(collider.gameObject);
-                        Instantiate(GameInfoSingleton.Instance.playerSettings.explotion, collider.gameObject.transform.position, Quaternion.identity);
+                        HitPoints _hitPoints = collider.gameObject.GetComponent<HitPoints>();
+                        if (_hitPoints != null)
+                        {
+                            _hitPoints.m_HP = 0;
+                        }
                     }
                 }
             }
@@ -112,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
 
         GameInfoSingleton.Instance.playerSettings.shieldIsActive = m_shield;
 
+        // This sets the color back to normal after you picked up a healing pickup (see FlashGreen)
         if (m_healingPickedUp)
         {
             m_flashGreenTimer += Time.deltaTime * 10;
@@ -187,6 +196,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void InstaKill()
     {
+        // This instantly kills any enemy and destoys any enemy bullet which are in the screen at the moment of using this attack
         if (!m_zAttack && !m_IsPaused)
         {
             List<GameObject> _targets = new List<GameObject>();
@@ -202,11 +212,20 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (_target.CompareTag("Enemy"))
                     {
-                        EnemyBase _enemyBase = _target.GetComponent<EnemyBase>();
-                        GameInfoSingleton.Instance.playerSettings.score += _enemyBase.m_Score;
-                        Instantiate(GameInfoSingleton.Instance.playerSettings.explotion, _target.transform.position, Quaternion.identity);
+                        HitPoints _hitPoints = _target.gameObject.GetComponent<HitPoints>();
+                        if (_hitPoints != null)
+                        {
+                            _hitPoints.m_HP = 0;
+                        }
                     }
-                    Destroy(_target);
+                    if (_target.CompareTag("Bullet"))
+                    {
+                        BulletScript _bullet = _target.GetComponent<BulletScript>();
+                        if(_bullet != null && !_bullet.m_canDamageEnemy)
+                        {
+                            Destroy(_bullet.gameObject);
+                        }
+                    }
                 }
             }
 
@@ -224,6 +243,8 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    // This spawns a wormhole which follows your cursor
+    // When the wormhole is already in the scene and you press this button you teleport onto the wormhole and cooldown starts
     public void WormHole(CallbackContext _context)
     {
         Vector2 _mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -248,6 +269,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // This does all the logic that has to do with the wormhole that cant be done in the WormHole function
+    // Because that only gets ran once when you press the button and this always gets ran
     private void WormHoleLogic()
     {
         if (m_currentWormHoleState == wormHoleState.inScene)
@@ -295,6 +318,7 @@ public class PlayerMovement : MonoBehaviour
             mousePosition.z
         );
 
+        // This moves the cursor with the imput from your controller so you can press buttons and use the wormhole on controller to
         Mouse.current.WarpCursorPosition(Camera.main.WorldToScreenPoint(newCursorPosition));
     }
 
@@ -313,6 +337,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // In this function all the powerups get handled, it checks for the names that it gets from the powerup script when it hits the player
+    // And it runs the logic for that pickup you pucked up
     public void PowerUp(string _powerUpName)
     {
         if (_powerUpName == "HP")
@@ -359,6 +385,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // This flashes your ship green when you pick up a HP pickup
     private void FlashGreen()
     {
         Color _tickColor = m_spriteRenderer.color;
@@ -368,6 +395,7 @@ public class PlayerMovement : MonoBehaviour
         m_healingPickedUp = true;
     }
 
+    // This makes your shield flicker when its almost over so u can see that you are running out of shield time
     IEnumerator ShieldFlicker()
     {
         SpriteRenderer _shieldSR = m_shieldObject.GetComponent<SpriteRenderer>();

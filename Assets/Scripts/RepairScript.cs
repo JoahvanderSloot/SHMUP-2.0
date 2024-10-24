@@ -25,6 +25,7 @@ public class RepairScript : MonoBehaviour
         GameObject _player = GameObject.FindWithTag("Player");
         m_playerMovement = _player.GetComponent<PlayerMovement>();
 
+        // Chose a random sequence
         int _maxSequence = 6;
         if (GameInfoSingleton.Instance.playerSettings.wave <= _maxSequence)
         {
@@ -41,6 +42,7 @@ public class RepairScript : MonoBehaviour
             }
         }
 
+        // Start showing the sequence
         if (m_showSequence == null && gameObject.activeInHierarchy)
         {
             m_showSequence = StartCoroutine(ShowSequence());
@@ -52,6 +54,8 @@ public class RepairScript : MonoBehaviour
 
     private void Update()
     {
+        // When it is showing the sequence you cant click the buttons
+        // When it is done you can click them again
         if (!m_showedSequence)
         {
             for (int i = 0; i < m_buttons.Count; i++)
@@ -72,6 +76,7 @@ public class RepairScript : MonoBehaviour
             }
         }
 
+        // If you got a button incorrect you die and the GameOver scene gets loaded
         if (m_isIncorrect)
         {
             m_deathTimer += 2 + Time.deltaTime;
@@ -95,6 +100,9 @@ public class RepairScript : MonoBehaviour
             }
         }
 
+        // Every time you click a button it checks if is is the correct one in the sequense
+        // If this sequnce is correct it tells you that and you can click the next one
+        // But if it is false it tells you that and sets m_isIncorrect to true
         if (sequenceCorrect)
         {
             m_correctIncorrect.text = "Correct";
@@ -135,7 +143,7 @@ public class RepairScript : MonoBehaviour
         }
     }
 
-
+    // This shows the sequence with a little time in between so u can remember it
     IEnumerator ShowSequence()
     {
         for (int i = 0; i < m_randomSequence.Count; i++)

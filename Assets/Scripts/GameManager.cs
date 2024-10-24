@@ -48,11 +48,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        // Sets the wave count in the playerSettings to the correct wave
         if (m_waveCount > 0)
         {
             GameInfoSingleton.Instance.playerSettings.wave = m_waveCount;
         }
 
+        // When the player HP is 0 or lower it checks if you alreay repared your ship this game
+        // If you have it loads the GameOver scene and if you havent it starts the repairing task and sets m_canRepair to false
         if (GameInfoSingleton.Instance.playerSettings.playerHP <= 0)
         {
             if (m_canRepair && !GameInfoSingleton.Instance.playerSettings.isRepairing)
@@ -67,36 +70,44 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // This sets the repairing task object to false if you stop repairing
         if (!GameInfoSingleton.Instance.playerSettings.isRepairing)
         {
             m_repairObject.SetActive(false);
         }
 
+        // Checks for the status of the wave when you are not paused
         if (!m_movement.m_IsPaused)
         {
             CheckWaveStatus();
         }
 
+        // This gives your player the correct sprite according the the shiplevel (powerups)
         if (GameInfoSingleton.Instance.playerSettings.shipLevel < m_playerSprites.Count)
         {
             m_playerSpriteRenderer.sprite = m_playerSprites[GameInfoSingleton.Instance.playerSettings.shipLevel];
         }
 
+        // This caps the shipLevel at 2 (wich is 3 but it counts from 0 so in code it says 2)
         if (GameInfoSingleton.Instance.playerSettings.shipLevel >= 2)
         {
             GameInfoSingleton.Instance.playerSettings.shipLevel = 2;
         }
 
+        // This caps the HP at 3
         if (GameInfoSingleton.Instance.playerSettings.playerHP > 3)
         {
             GameInfoSingleton.Instance.playerSettings.playerHP = 3;
         }
 
+        // This runs the MissileAttack funtion when you have missiles avalible
         if(GameInfoSingleton.Instance.playerSettings.missileCount > 0)
         {
             MissileAttack();
         }
 
+        // This sets the missile target (crosshair) on a random enemy when there is a missile in the scene
+        // This works hand in hand with the MissileAttack function
         if (FindObjectOfType<HomingMissile>() != null)
         {
             GameObject _randomEnemy = GameObject.FindWithTag("Enemy");
@@ -111,6 +122,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Spawns a new wave, or a boss every 5 waves
     private void SpawnNewWave()
     {
         if (m_isSpawningWave) return;
@@ -130,6 +142,7 @@ public class GameManager : MonoBehaviour
         m_waveCount++;
     }
 
+    // Instantiates the boss
     private void SpawnBoss()
     {
         GameObject boss = Instantiate(m_boss, m_enemySpawnPos, Quaternion.identity);
@@ -137,9 +150,9 @@ public class GameManager : MonoBehaviour
         m_isSpawningWave = false;
     }
 
+    // Checks if a new wave needs to be started and starts one if needed
     private void CheckWaveStatus()
     {
-
         m_currentWaveEnemies.RemoveAll(enemy => enemy == null);
 
         if (m_currentWaveEnemies.Count == 0 && !m_isSpawningWave)
@@ -148,6 +161,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // This coroutine actualy spawns the wave, it chooses a random amount of enemys and spawns this amount of enemys
+    // Every enemy it spawns is a random enemy and in the EnemyBase script this enemy choses if it is type 1 or 2
     IEnumerator SpawnEnemiesWithDelay()
     {
         int _enemyCount = Random.Range(m_minEnemiesPerWave, m_maxEnemiesPerWave);
@@ -166,6 +181,8 @@ public class GameManager : MonoBehaviour
         m_isSpawningWave = false;
     }
 
+    // This shoots a missile when m_missileAttack is true
+    // This gets set true in the PlayerMovement script and the movement of the missile happens in its own script
     private void MissileAttack()
     {
         HomingMissile[] _missiles = FindObjectsOfType(typeof(HomingMissile)) as HomingMissile[];
@@ -182,10 +199,6 @@ public class GameManager : MonoBehaviour
             _missileScript.m_crossHair = m_crossHair;
 
             m_missileAttack = false;
-        }
-        else
-        {
-            Cursor.visible = true;
         }
     }
 }

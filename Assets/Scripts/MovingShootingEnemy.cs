@@ -32,6 +32,8 @@ public class MovingShootingEnemy : ShootingEnemy
         m_moveDirection = new Vector2(Random.value > 0.5f ? 1 : -1, 0);
     }
 
+    // The movement is the same as the moving enemy (see MovingEnemy)
+    // The only difference is that this enemy inherites from the shooting enemy so it also shoots
     private void EnemyMovement()
     {
         if (m_isInPosition)

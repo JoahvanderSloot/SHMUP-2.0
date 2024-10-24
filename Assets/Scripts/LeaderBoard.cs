@@ -19,6 +19,7 @@ public class LeaderBoard : MonoBehaviour
 
     private void UpdateScore()
     {
+        // This removes every player which did not enter a IGN (name)
         for (int i = m_NamesList.Count - 1; i >= 0; i--)
         {
             if (string.IsNullOrEmpty(m_NamesList[i]))
@@ -28,6 +29,8 @@ public class LeaderBoard : MonoBehaviour
             }
         }
 
+        // This adds a new player when their name is not found in the list, and the checks for ranking
+        // (which puts the player at its deseved spot)
         if (!m_NamesList.Contains(GameInfoSingleton.Instance.playerSettings.IGN))
         {
             if (!string.IsNullOrEmpty(GameInfoSingleton.Instance.playerSettings.IGN))
@@ -37,6 +40,8 @@ public class LeaderBoard : MonoBehaviour
                 CheckForRanking();
             }
         }
+        // If the player is already in the list it checks if the new score is higher then the old one
+        // if it is it sets the new score as the players highscore and ranks the leaderboard again
         else
         {
             int _currentName = m_NamesList.IndexOf(GameInfoSingleton.Instance.playerSettings.IGN);
@@ -47,11 +52,13 @@ public class LeaderBoard : MonoBehaviour
             }
         }
 
+        // Destroy the old leaderboard from the canvast so it can make a new one with the updated scores
         foreach (Transform child in m_Canvas.transform)
         {
             Destroy(child.gameObject);
         }
 
+        // Instantates the text objects and displays the top 10
         int displayCount = Mathf.Min(10, m_NamesList.Count);
         for (int i = 0; i < displayCount; i++)
         {
@@ -62,6 +69,8 @@ public class LeaderBoard : MonoBehaviour
             _newText.text = "#" + _rank + " - " + m_ScoreList[i] + ": " + m_NamesList[i];
         }
 
+        // If the current player is not in the top 10 it sets it below the top 10 list and displays its ranking
+        // This is so you can always find your name on the leaderboard even if you are not in the top 10 currently
         int playerRank = m_NamesList.IndexOf(GameInfoSingleton.Instance.playerSettings.IGN) + 1;
         if (playerRank > 10)
         {
@@ -71,9 +80,11 @@ public class LeaderBoard : MonoBehaviour
             playerText.text = "#" + playerRank + " - " + GameInfoSingleton.Instance.playerSettings.score + ": " + GameInfoSingleton.Instance.playerSettings.IGN;
         }
 
+        // Save the leaderboard
         SaveData();
     }
 
+    // Load the saved leavderboard from a json it gets saved in every time after updating
     public void LoadData()
     {
         string path = Application.persistentDataPath + "/leaderboard.json";
@@ -96,6 +107,8 @@ public class LeaderBoard : MonoBehaviour
         }
     }
 
+    // This checks the whole scoreboard and sets it from highest score to lowest score in a combined list
+    // Then puts everything back in the normal list in the correct the order
     private void CheckForRanking()
     {
         List<(string name, int score)> combinedList = new List<(string, int)>();
@@ -117,6 +130,7 @@ public class LeaderBoard : MonoBehaviour
         }
     }
 
+    // Saves the scoreboard on a json file
     public void SaveData()
     {
         LeaderboardData data = new LeaderboardData();

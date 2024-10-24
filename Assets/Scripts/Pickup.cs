@@ -8,6 +8,8 @@ public class Pickup : MonoBehaviour
     [SerializeField] List<Sprite> m_sprites;
     SpriteRenderer m_SpriteRenderer;
 
+    // In the start the pickups choses a random number (which correlate to a certain pickup)
+    // And then gives it the correct sprite
     private void Start()
     {
         Destroy(gameObject, 4);
@@ -18,6 +20,8 @@ public class Pickup : MonoBehaviour
 
     private void Update()
     {
+        // This sets the name to the pickup correlating to to the random number
+        // And sets the scale of that pikcup so the sprites (which have different sizes) look the correct size
         switch (m_randomName)
         {
             case 0:
@@ -52,6 +56,7 @@ public class Pickup : MonoBehaviour
         }
     }
 
+    // When the player hits the pickup the PowerUp function in the PlayerMovement script gets called with the pickup name as parameter
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlayerMovement _playerMovement = collision.GetComponent<PlayerMovement>();

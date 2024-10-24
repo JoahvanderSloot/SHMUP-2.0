@@ -41,6 +41,7 @@ public class EnemyBase : MonoBehaviour
         m_spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    // Get a random position to lerp towards when you get instantiated
     Vector3 GetRandomPosition()
     {
         float _randomX = Random.Range(-m_maxX, m_maxX);
@@ -50,6 +51,7 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Update()
     {
+        // Makes the enemy die and sometimes drop a powerup
         if(m_hitPoints.m_HP <= 0)
         {
             if (Random.Range(0, 5) == 1)
@@ -61,6 +63,7 @@ public class EnemyBase : MonoBehaviour
             Destroy(gameObject);
         }
 
+        // If you are not in the staring position (GetRandomPosition), lerp towards it and set m_isInPosition to true
         if (!m_isInPosition)
         {
             float _distance = Vector2.Distance(transform.position, m_randomPosition);
@@ -80,6 +83,7 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
+        // Sets the alpha of the color back to normal
         if (m_isHit)
         {
             m_hitTimer += Time.deltaTime * 10;
@@ -94,6 +98,8 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    // This gets called when a bullet hits a enemy
+    // It sets the alpha of the color to 50 and sets m_isHit to true so after a short while it goes back to normal
     public void DamageTick()
     {
         Color _tickColor = m_spriteRenderer.color;

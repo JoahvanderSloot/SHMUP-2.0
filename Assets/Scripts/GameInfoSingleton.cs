@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class GameInfoSingleton : MonoBehaviour
 {
-
+    //Makes a singleton called "GameInfoSingleton" wich i use to reference the PlaterSettings scripteble object
     private static GameInfoSingleton instance;
 
-    
     public static GameInfoSingleton Instance
     {
         get

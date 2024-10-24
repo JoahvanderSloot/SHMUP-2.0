@@ -28,6 +28,7 @@ public class MovingEnemy : EnemyBase
 
     private void SideToSideMovement()
     {
+        // If the moving enemy is in the startposition it starts moving left and right
         if (m_isInPosition)
         {
             float _rightSideOfScreen = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x - 0.15f;
@@ -44,6 +45,7 @@ public class MovingEnemy : EnemyBase
 
             m_rb.AddForce(m_moveDirection.normalized * m_Speed * Time.deltaTime * 1000, ForceMode2D.Force);
 
+            // When the enemy type is 1 it moves side to side but also moves down
             if (m_enemyType == 1 && m_moveDown)
             {
                 m_rb.AddForce(Vector2.down * m_Speed * Time.deltaTime * 100, ForceMode2D.Force);
@@ -57,6 +59,7 @@ public class MovingEnemy : EnemyBase
                     transform.rotation = Quaternion.Euler(0, 0, -250);
                 }
 
+                // When the enemy is at the bottom it sets that bool to true and stops it from moving down any further
                 if (transform.position.y <= -3)
                 {
                     m_isAtBottom = true;
@@ -65,6 +68,7 @@ public class MovingEnemy : EnemyBase
                 }
             }
 
+            // When the enemy is at the button it moves side to side for a while down there, and when its done it starts flying up again
             if (m_isAtBottom)
             {
                 m_bottomTimer += Time.deltaTime;
@@ -90,6 +94,7 @@ public class MovingEnemy : EnemyBase
                 }
             }
 
+            // thiss handles the rotation for if the enemy is at the bottom
             if (m_enemyType == 0 || m_isAtBottom && m_bottomTimer < m_waitTimeAtBottom)
             {
                 if (m_moveDirection == Vector2.right)

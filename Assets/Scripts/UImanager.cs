@@ -31,10 +31,12 @@ public class UImanager : MonoBehaviour
 
     private void Update()
     {
+        // This sets all thetexts you have on your screen
         m_score.text = GameInfoSingleton.Instance.playerSettings.IGN + ": " + GameInfoSingleton.Instance.playerSettings.score.ToString();
         m_wave.text = "Wave: " + GameInfoSingleton.Instance.playerSettings.wave.ToString();
         m_missileCount.text = GameInfoSingleton.Instance.playerSettings.missileCount.ToString();
 
+        // This shows the escape menu when you are paused
         if (m_playerMovement.m_IsPaused)
         {
             m_escMenu.SetActive(true);
@@ -53,6 +55,7 @@ public class UImanager : MonoBehaviour
             m_escMenu.transform.localScale = Vector2.Lerp(m_escMenu.transform.localScale, Vector2.zero, 10 * Time.unscaledDeltaTime);
         }
 
+        // This sets the UI images of the insta kill atack to true or false when you have it avalible or not
         if (!m_playerMovement.m_zAttack)
         {
             m_zAttackUI.SetActive(true);
@@ -62,6 +65,7 @@ public class UImanager : MonoBehaviour
             m_zAttackUI.SetActive(false);
         }
 
+        // This hides all the UI objects in the scene when you are repairing
         if (GameInfoSingleton.Instance.playerSettings.isRepairing)
         {
             foreach (GameObject _obj in m_allUIobjects)
@@ -78,6 +82,7 @@ public class UImanager : MonoBehaviour
             }
         }
 
+        // This makes the cooldown slider of the wormhole go up
         if (m_playerMovement.m_currentWormHoleState == wormHoleState.notInArsenal)
         {
             m_wormHoleCooldown.value = 10 - m_playerMovement.m_wormHoleTimer;
@@ -86,7 +91,6 @@ public class UImanager : MonoBehaviour
         {
             m_wormHoleCooldown.value = 10;
         }
-       
 
         UpdateLives();
         Damage();
@@ -94,6 +98,7 @@ public class UImanager : MonoBehaviour
 
     private void UpdateLives()
     {
+        // Set the alpha of the lives that you lost down to 50
         for (int i = 0; i < m_lives.Count; i++)
         {
             Color _currentColor = m_lives[i].color;
@@ -111,6 +116,7 @@ public class UImanager : MonoBehaviour
         }
     }
 
+    // Flash the screen red when you take damage
     private void Damage()
     {
         Color _flashColor = m_damageFlash.color;

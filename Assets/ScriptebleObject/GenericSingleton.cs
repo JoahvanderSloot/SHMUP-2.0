@@ -28,7 +28,6 @@ public class GenericSingleton<T> : MonoBehaviour where T : Component
         {
             m_instance = this as T;
 
-            //keeps it when loading new scene (optional)
             DontDestroyOnLoad(gameObject);
         }
         else

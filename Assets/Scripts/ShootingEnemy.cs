@@ -26,6 +26,8 @@ public class ShootingEnemy : EnemyBase
 
         base.Update();
 
+        // If the enemy is in the start position it checks what the enem type is
+        // When this type is 0 it just sits there and shoots down, but when it is 1 it looks at the player and shoots towards the player
         if (m_isInPosition)
         {
             switch (m_enemyType)
@@ -63,6 +65,8 @@ public class ShootingEnemy : EnemyBase
     {
         while (true)
         {
+            // This checks what type the enemy is and sets the shootdirection to ether down or forward (for the enemy thats up because of its rotation)
+            // Forward shoots towards the player because the rotation looks at the player
             switch (m_enemyType)
             {
                 case 0:
