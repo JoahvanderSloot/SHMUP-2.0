@@ -9,6 +9,7 @@ public class Buttons : MonoBehaviour
 
     public void PointerEnter()
     {
+        FindObjectOfType<AudioManager>().Play("ButtonHover");
         transform.localScale = new Vector2(1.05f, 1.05f);
     }
 
@@ -19,6 +20,7 @@ public class Buttons : MonoBehaviour
 
     public void StartGame()
     {
+        FindObjectOfType<AudioManager>().Play("ButtonPress");
         SceneManager.LoadScene("Main");
         Time.timeScale = 1;
         GameInfoSingleton.Instance.playerSettings.score = 0;
@@ -31,22 +33,26 @@ public class Buttons : MonoBehaviour
 
     public void MainMenu()
     {
+        FindObjectOfType<AudioManager>().Play("ButtonPress");
         SceneManager.LoadScene("Start");
     }
 
     public void Continue()
     {
+        FindObjectOfType<AudioManager>().Play("ButtonPress");
         PlayerMovement m_playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
         m_playerMovement.m_IsPaused = false;
     }
 
     public void SkipRepair()
     {
+        FindObjectOfType<AudioManager>().Play("ButtonPress");
         SceneManager.LoadScene("GameOver");
     }
 
     public void Controls()
     {
+        FindObjectOfType<AudioManager>().Play("ButtonPress");
         SceneManager.LoadScene("Controls");
     }
 
@@ -57,6 +63,7 @@ public class Buttons : MonoBehaviour
 
         if (GameInfoSingleton.Instance.playerSettings.audio)
         {
+            FindObjectOfType<AudioManager>().Play("ButtonPress");
             _button.image.sprite = m_audioImages[0];
         }
         else

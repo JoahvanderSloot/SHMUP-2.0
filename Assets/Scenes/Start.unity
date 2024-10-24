@@ -359,7 +359,133 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixerGroup: {fileID: 0}
-  sounds: []
+  sounds:
+  - name: ButtonHover
+    clip: {fileID: 8300000, guid: 4cb4a41e580d6d74aacff79dff750ef8, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: ButtonPress
+    clip: {fileID: 8300000, guid: 04e26ae7eac3b354a87845f2bebe5ea8, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Correct
+    clip: {fileID: 8300000, guid: 7c45298c1a5c27f47a7784797185f644, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Incorrect
+    clip: {fileID: 8300000, guid: 9d31eaf0d90bf4a48a6078445a44f886, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Explotion
+    clip: {fileID: 8300000, guid: 8fe66f0412d41254cbd52fafd8fbbe58, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Pickup
+    clip: {fileID: 8300000, guid: 4c751101e8a8a7d40933aab58bebe203, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Damage
+    clip: {fileID: 8300000, guid: 261bd3168b213ea4489af5f462811cdf, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Hit
+    clip: {fileID: 8300000, guid: 6591f500e368b2f44939f3a27bf91fa0, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: HP
+    clip: {fileID: 8300000, guid: 1578b73ba78efbe439b3d8337b1823aa, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: zAttack
+    clip: {fileID: 8300000, guid: e79e605a96511b64d9a342c4583d9d76, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Shoot
+    clip: {fileID: 8300000, guid: 6f71ced52d45a1e44bf885d02c1ca2da, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Shield
+    clip: {fileID: 8300000, guid: d58dcd219303bf44b97d40b997b6769f, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Updrade
+    clip: {fileID: 8300000, guid: d13e47a41c38c5f4eb926716d1bbda84, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: WormHole
+    clip: {fileID: 8300000, guid: 3ab756763a922b94bb75e096a67371a7, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
   playerData: {fileID: 11400000, guid: a8cbd84bd6ab9c44d922f84439f05bb0, type: 2}
 --- !u!1 &151555960
 GameObject:
