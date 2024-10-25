@@ -9,6 +9,7 @@ public class DamagePlayer : MonoBehaviour
         // Check if you hit the player and damage it when you do
         if (collision.gameObject.CompareTag("Player"))
         {
+            FindObjectOfType<AudioManager>().Play("Damage");
             GameInfoSingleton.Instance.playerSettings.playerHP -= m_DamagePoints;
             Instantiate(GameInfoSingleton.Instance.playerSettings.explotion, transform.position, Quaternion.identity);
             Destroy(gameObject);

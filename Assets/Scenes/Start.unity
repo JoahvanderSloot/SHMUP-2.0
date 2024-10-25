@@ -388,7 +388,7 @@ MonoBehaviour:
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
   - name: Incorrect
-    clip: {fileID: 8300000, guid: 9d31eaf0d90bf4a48a6078445a44f886, type: 3}
+    clip: {fileID: 8300000, guid: e01499f52ef0abb4782bef7c3ed800ba, type: 3}
     volume: 1
     volumeVariance: 0
     pitch: 1
@@ -409,7 +409,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 4c751101e8a8a7d40933aab58bebe203, type: 3}
     volume: 1
     volumeVariance: 0
-    pitch: 1
+    pitch: 1.31
     pitchVariance: 0
     loop: 0
     mixerGroup: {fileID: 0}
@@ -479,6 +479,33 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: WormHole
     clip: {fileID: 8300000, guid: 3ab756763a922b94bb75e096a67371a7, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: WormHoleSpawn
+    clip: {fileID: 8300000, guid: b608a4a1b3515314591d1268df4c2618, type: 3}
+    volume: 0.3
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Missile
+    clip: {fileID: 8300000, guid: 69033065a4a42394cac228ce310fd0a4, type: 3}
+    volume: 0.5
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Beep
+    clip: {fileID: 8300000, guid: 59d6b603d3b231e41b4d425427f57f5d, type: 3}
     volume: 1
     volumeVariance: 0
     pitch: 1

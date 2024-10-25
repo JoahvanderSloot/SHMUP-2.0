@@ -40,6 +40,9 @@ public class HomingMissile : MonoBehaviour
 
     private void Explode()
     {
+        // Stop the launchin sound from playing
+        FindObjectOfType<AudioManager>().Stop("Missile");
+
         //Remove the crosshair and instantiate the explotion (which only particles and doesnt deal damage)
         Destroy(m_crossHair);
         GameObject _explotion = Instantiate(m_explotion, transform.position, Quaternion.identity);

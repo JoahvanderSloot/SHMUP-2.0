@@ -80,7 +80,8 @@ public class ShootingEnemy : EnemyBase
                         break;
                     }
             }
-           
+
+            FindObjectOfType<AudioManager>().Play("Shoot");
             GameObject _instantedBullet = Instantiate(m_bullet, transform.position, m_bulletRotation);
             BulletScript _enemyBullet = _instantedBullet.GetComponent<BulletScript>();
             _enemyBullet.m_shootForce = m_enemyShootForce;

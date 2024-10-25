@@ -67,7 +67,10 @@ public class PlayerMovement : MonoBehaviour
             WormHoleLogic();
         }
 
-        //MoveCursorWithGamepad();
+        if (Gamepad.all.Count > 0)
+        {
+            MoveCursorWithGamepad();
+        }
 
         m_rb.drag = m_drag;
 
@@ -157,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Fire(CallbackContext _context)
     {
-        if (_context.performed)
+        if (_context.performed && !m_IsPaused)
         {
             m_newCoroutine = StartCoroutine(ShootLogic());
         }
@@ -171,6 +174,7 @@ public class PlayerMovement : MonoBehaviour
     {
         while (true)
         {
+            FindObjectOfType<AudioManager>().Play("Shoot");
             GameObject _shotBullet = Instantiate(m_bullet, transform.position, Quaternion.identity);
             _shotBullet.GetComponent<SpriteRenderer>().color = Color.white;
             BulletScript _bulletScript = _shotBullet.GetComponent<BulletScript>();
@@ -204,6 +208,7 @@ public class PlayerMovement : MonoBehaviour
             _targets.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
             _targets.AddRange(GameObject.FindGameObjectsWithTag("Bullet"));
 
+            FindObjectOfType<AudioManager>().Play("zAttack");
             Instantiate(m_attackParticles, transform.position, Quaternion.identity);
 
             foreach (GameObject _target in _targets)
@@ -253,6 +258,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (m_currentWormHoleState == wormHoleState.inArsenal)
             {
+                FindObjectOfType<AudioManager>().Play("WormHoleSpawn");
                 m_wormHoleObj = Instantiate(m_wormHolePref, _mouseWorldPos, Quaternion.identity);
                 m_currentWormHoleState = wormHoleState.inScene;
             }
@@ -260,6 +266,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (m_wormHoleObj != null)
                 {
+                    FindObjectOfType<AudioManager>().Play("WormHole");
                     transform.position = m_wormHoleObj.transform.position;
                     Destroy(m_wormHoleObj);
                     m_currentWormHoleState = wormHoleState.notInArsenal;
@@ -309,18 +316,20 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 gamepadInput = m_cursorInput.action.ReadValue<Vector2>();
 
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        float scaleFactor = 0.15f;
 
-        float scaleFactor = 0.1f;
-        Vector3 newCursorPosition = new Vector3(
-            mousePosition.x + gamepadInput.x * scaleFactor,
-            mousePosition.y + gamepadInput.y * scaleFactor,
-            mousePosition.z
+        Vector3 currentCursorPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+
+        Vector3 newCursorPosition = currentCursorPosition + new Vector3(
+            gamepadInput.x * scaleFactor,
+            gamepadInput.y * scaleFactor,
+            0f
         );
 
-        // This moves the cursor with the imput from your controller so you can press buttons and use the wormhole on controller to
+        // This makes the cursor move with a controller (so you can use the wormhole on controller too)
         Mouse.current.WarpCursorPosition(Camera.main.WorldToScreenPoint(newCursorPosition));
     }
+
 
     private void ScreenWrap()
     {
@@ -343,7 +352,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_powerUpName == "HP")
         {
-            if(GameInfoSingleton.Instance.playerSettings.playerHP < 3)
+            FindObjectOfType<AudioManager>().Play("HP");
+            if (GameInfoSingleton.Instance.playerSettings.playerHP < 3)
             {
                 GameInfoSingleton.Instance.playerSettings.playerHP++;
                 FlashGreen();
@@ -355,10 +365,12 @@ public class PlayerMovement : MonoBehaviour
         }
         if (_powerUpName == "Upgrade")
         {
+            FindObjectOfType<AudioManager>().Play("Updrade");
             GameInfoSingleton.Instance.playerSettings.shipLevel++;
         }
         if (_powerUpName == "Instakill")
         {
+            FindObjectOfType<AudioManager>().Play("Pickup");
             if (m_zAttack == true)
             {
                 m_zAttack = false;
@@ -370,6 +382,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (_powerUpName == "Shield")
         {
+            FindObjectOfType<AudioManager>().Play("Shield");
             if (!m_shield)
             {
                 m_shield = true;
@@ -381,6 +394,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(_powerUpName == "Missile")
         {
+            FindObjectOfType<AudioManager>().Play("Pickup");
             GameInfoSingleton.Instance.playerSettings.missileCount += 3;
         }
     }

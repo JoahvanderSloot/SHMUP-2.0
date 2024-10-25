@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -189,6 +190,7 @@ public class GameManager : MonoBehaviour
 
         if (m_missileAttack && _missiles.Length == 0)
         {
+            FindObjectOfType<AudioManager>().Play("Missile");
             GameObject _missileObj = Instantiate(m_missile, m_player.transform.position, Quaternion.identity);
             GameInfoSingleton.Instance.playerSettings.missileCount--;
 

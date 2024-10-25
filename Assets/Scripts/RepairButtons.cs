@@ -24,28 +24,24 @@ public class RepairButtons : MonoBehaviour
 
     public void ButtonUp()
     {
-        FindObjectOfType<AudioManager>().Play("ButtonPress");
         m_repairScript.m_inputSequence.Add(0);
         m_repairScript.CheckInputSequence();
     }
 
     public void ButtonDown()
     {
-        FindObjectOfType<AudioManager>().Play("ButtonPress");
         m_repairScript.m_inputSequence.Add(1);
         m_repairScript.CheckInputSequence();
     }
 
     public void ButtonLeft()
     {
-        FindObjectOfType<AudioManager>().Play("ButtonPress");
         m_repairScript.m_inputSequence.Add(2);
         m_repairScript.CheckInputSequence();
     }
 
     public void ButtonRight()
     {
-        FindObjectOfType<AudioManager>().Play("ButtonPress");
         m_repairScript.m_inputSequence.Add(3);
         m_repairScript.CheckInputSequence();
     }

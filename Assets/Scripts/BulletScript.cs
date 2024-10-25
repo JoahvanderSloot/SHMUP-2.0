@@ -56,6 +56,7 @@ public class BulletScript : MonoBehaviour
             if (_hitPoints != null)
             {
                 // Check if the object it hits has a HP script and if it does deal damage to the object
+                FindObjectOfType<AudioManager>().Play("Hit");
                 _hitPoints.m_HP -= m_damage;
             }
             EnemyBase _enemyBase = collision.gameObject.GetComponent<EnemyBase>();
@@ -72,6 +73,7 @@ public class BulletScript : MonoBehaviour
             if (!GameInfoSingleton.Instance.playerSettings.shieldIsActive && !m_canDamageEnemy)
             {
                 // Damage the player
+                FindObjectOfType<AudioManager>().Play("Damage");
                 GameInfoSingleton.Instance.playerSettings.playerHP--;
             }
             Destroy(gameObject);

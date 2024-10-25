@@ -75,14 +75,14 @@ public class Buttons : MonoBehaviour
     public void QuitGame()
     {
         #if (UNITY_EDITOR || DEVELOPMENT_BUILD)
-        Debug.Log(this.name + " : " + this.GetType() + " : " + System.Reflection.MethodBase.GetCurrentMethod().Name);
+            Debug.Log(this.name + " : " + this.GetType() + " : " + System.Reflection.MethodBase.GetCurrentMethod().Name);
         #endif
         #if (UNITY_EDITOR)
-        UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
         #elif (UNITY_STANDALONE)
-         Application.Quit();
+            Application.Quit();
         #elif (UNITY_WEBGL)
-          Application.OpenURL("https://joahvds.itch.io/wa-lch");
+            Application.OpenURL("https://joahvds.itch.io/space-fighter");
         #endif
     }
 }

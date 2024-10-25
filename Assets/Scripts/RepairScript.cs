@@ -80,7 +80,7 @@ public class RepairScript : MonoBehaviour
         if (m_isIncorrect)
         {
             m_deathTimer += 2 + Time.deltaTime;
-            if (m_deathTimer > 3)
+            if (m_deathTimer >= 10)
             {
                 SceneManager.LoadScene("GameOver");
             }
@@ -105,6 +105,7 @@ public class RepairScript : MonoBehaviour
         // But if it is false it tells you that and sets m_isIncorrect to true
         if (sequenceCorrect)
         {
+            FindObjectOfType<AudioManager>().Play("Correct");
             m_correctIncorrect.text = "Correct";
             m_correctIncorrect.color = Color.green;
 
@@ -137,6 +138,7 @@ public class RepairScript : MonoBehaviour
         }
         else
         {
+            FindObjectOfType<AudioManager>().Play("Incorrect");
             m_correctIncorrect.text = "Incorrect";
             m_correctIncorrect.color = Color.red;
             m_isIncorrect = true;
@@ -150,6 +152,7 @@ public class RepairScript : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(1f);
 
+            FindObjectOfType<AudioManager>().Play("Beep");
             Image _buttonIMG = m_buttons[m_randomSequence[i]].GetComponent<Image>();
             _buttonIMG.color = m_color;
 

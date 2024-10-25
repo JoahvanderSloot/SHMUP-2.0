@@ -71,6 +71,7 @@ public class Boss : EnemyBase
         while (true)
         {
             yield return new WaitForSeconds(m_fireRate);
+            FindObjectOfType<AudioManager>().Play("Shoot");
             GameObject _instantedBullet = Instantiate(m_bullet, transform.position, transform.rotation);
             BulletScript _enemyBullet = _instantedBullet.GetComponent<BulletScript>();
             _enemyBullet.m_shootForce = _shootForce;
