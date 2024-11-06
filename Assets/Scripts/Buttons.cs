@@ -7,6 +7,22 @@ public class Buttons : MonoBehaviour
 {
     [SerializeField] List<Sprite> m_audioImages;
 
+    private void Start()
+    {
+        Button _button = GetComponent<Button>();
+        if (m_audioImages.Count != 0)
+        {
+            if (GameInfoSingleton.Instance.playerSettings.audio)
+            {
+                _button.image.sprite = m_audioImages[0];
+            }
+            else
+            {
+                _button.image.sprite = m_audioImages[1];
+            }
+        }
+    }
+
     public void PointerEnter()
     {
         FindObjectOfType<AudioManager>().Play("ButtonHover");
@@ -86,3 +102,4 @@ public class Buttons : MonoBehaviour
         #endif
     }
 }
+ 
